@@ -86,5 +86,6 @@ decomposed_week <- stl(log(week_count_ts),
 plot(decomposed_week)
 
 #output raw and trend data to csv
-write.csv(round(decomposed_month$time.series[,2]), "data/trend_data_issued.csv")
+write.csv(round(exp(decomposed_month$time.series[,2]),2), "data/trend_data_issued.csv")
 write.csv(month_count, "data/raw_data_issued.csv")
+write.csv(round(exp(decomposed_month$time.series[,1]),2), "data/seasonal_data_issued.csv")
