@@ -3,7 +3,7 @@ $(function () {
   $(document).ready(function() {
     chart = new Highcharts.Chart({
       chart: {
-          renderTo: 'container',
+          renderTo: 'businessLicenseTrend',
           type: 'line',
           marginRight: 130,
           marginBottom: 25
@@ -15,7 +15,7 @@ $(function () {
         enabled: false 
       },
       title: {
-          text: 'Seasonally adjusted trend of issued business licenses',
+          text: 'Seasonally adjusted trend of new business licenses',
           x: -20 //center
       },
       subtitle: {
@@ -62,8 +62,7 @@ $(function () {
       },
       tooltip: {
           formatter: function() {
-                  return '<b>'+ this.series.name +'</b><br/>'+
-                  this.y;
+                  return '<b>'+ this.series.name +'</b><br/>'+this.y;
           }
       },
       legend: {
