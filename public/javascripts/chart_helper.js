@@ -1,5 +1,5 @@
 var ChartHelper = {};
-ChartHelper.create = function(renderTo, title, yaxis, fillColor, data) {
+ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor, data, startDate, pointInterval) {
   return new Highcharts.Chart({
       chart: {
           renderTo: renderTo,
@@ -18,7 +18,7 @@ ChartHelper.create = function(renderTo, title, yaxis, fillColor, data) {
           x: -20 //center
       },
       subtitle: {
-          text: 'Source: City of Chicago',
+          text: sourceTxt,
           x: -20
       },
       xAxis: {
@@ -27,7 +27,7 @@ ChartHelper.create = function(renderTo, title, yaxis, fillColor, data) {
       },
       yAxis: {
           title: {
-              text: yaxis
+              text: yaxisLabel
           }
       },
       plotOptions: {
@@ -44,8 +44,8 @@ ChartHelper.create = function(renderTo, title, yaxis, fillColor, data) {
             }
           },
           //this is very hacky. months have different day counts, so our point interval is the average - 30.4
-          pointInterval: 30.4 * 24 * 3600 * 1000,  
-          pointStart: Date.UTC(2005, 0, 28), //give ourselves a little buffer to fudge the month intervals
+          pointInterval: ChartHelper.pointInterval(pointInterval),  
+          pointStart: startDate,
           shadow: false,
           states: {
              hover: {
@@ -55,8 +55,9 @@ ChartHelper.create = function(renderTo, title, yaxis, fillColor, data) {
         }
       },
       tooltip: {
+          crosshairs: true,
           formatter: function() {
-            return "<strong>" + Highcharts.dateFormat("%B %Y", this.x) + "</strong><br/>"+this.y;
+            return "<strong>" + ChartHelper.toolTipDateFormat(pointInterval, this.x) + "</strong><br/>"+this.y;
           }
       },
       legend: {
@@ -74,3 +75,34 @@ ChartHelper.create = function(renderTo, title, yaxis, fillColor, data) {
       }]
     });
   }
+  
+ChartHelper.pointInterval = function(interval) {
+  if (interval == "year")
+    return 365 * 24 * 3600 * 1000;
+  if (interval == "month")
+    return 30.4 * 24 * 3600 * 1000;
+  if (interval == "week")
+    return 7 * 24 * 3600 * 1000;
+  if (interval == "day")
+    return 24 * 3600 * 1000;
+  if (interval == "hour")
+    return 3600 * 1000;
+  else
+    return 1;
+}
+
+ChartHelper.toolTipDateFormat = function(interval, x) {
+  if (interval == "year")
+    return Highcharts.dateFormat("%Y", x);
+  if (interval == "month")
+    return Highcharts.dateFormat("%B %Y", x);
+  if (interval == "week")
+    return Highcharts.dateFormat("%e %b %Y", x);
+  if (interval == "day")
+    return Highcharts.dateFormat("%e %b %Y", x);
+  if (interval == "hour")
+    return Highcharts.dateFormat("%H:00", x);
+  else
+    return 1;
+}
+
