@@ -43,7 +43,6 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
               }
             }
           },
-          //this is very hacky. months have different day counts, so our point interval is the average - 30.4
           pointInterval: ChartHelper.pointInterval(pointInterval),  
           pointStart: startDate,
           shadow: false,
@@ -57,7 +56,7 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
       tooltip: {
           crosshairs: true,
           formatter: function() {
-            return "<strong>" + ChartHelper.toolTipDateFormat(pointInterval, this.x) + "</strong><br/>"+this.y;
+            return "<strong>" + ChartHelper.toolTipDateFormat(pointInterval, this.x) + "</strong><br/>" + yaxisLabel + ": " + this.y;
           }
       },
       legend: {
@@ -79,7 +78,7 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
 ChartHelper.pointInterval = function(interval) {
   if (interval == "year")
     return 365 * 24 * 3600 * 1000;
-  if (interval == "month")
+  if (interval == "month") //this is very hacky. months have different day counts, so our point interval is the average - 30.4
     return 30.4 * 24 * 3600 * 1000;
   if (interval == "week")
     return 7 * 24 * 3600 * 1000;
