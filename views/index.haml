@@ -1,0 +1,24 @@
+- content_for :javascripts do
+  = include_javascript :highcharts
+  = include_javascript :chart_helper
+  = include_javascript :chart
+
+.row-fluid
+  .span12
+    .alert
+      %h3 It's been better!
+      %p
+        Short paragraph explaining why
+      
+    #businessLicenseTrend.chart
+    
+    #businessLicenseRaw.chart
+    
+    #businessLicenseSeason.chart
+    
+    %hr
+    %h3
+      About
+    
+    %p
+      Prof. Forest explains it all!
