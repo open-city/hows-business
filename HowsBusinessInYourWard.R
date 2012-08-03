@@ -25,7 +25,7 @@ index <- seq(as.yearmon("2005-01-01"),as.yearmon("2012-06-30"),1/12)
 full <- data.frame(index,rep(0,length(index)))
 names(full) <- c("index","zero")
 
-ward_no <- 1:50
+ward_no <- c(1:76,999)
 
 for (i in ward_no){
 	ward[[i]] <- geo_filtered_licenses_ward[geo_filtered_licenses_ward["WARD"]==i,c("LICENSE.DESCRIPTION","PAYMENT.DATE")]
@@ -48,7 +48,7 @@ for (i in ward_no){
 
 	ward_month_count[[i]] <- apply.monthly(ward_date_count_xts,sum)
 	#ward_week_count[[i]] <- apply.weekly(ward_date_count_xts[[i]], sum)
-
+	
 	#Insert zeros into gaps in the data
 	ward_month_df <- data.frame(index(ward_month_count[[i]]),ward_month_count[[i]])
 	ward_month_merge <- merge(full,ward_month_df,by.x=1,by.y=1,all=T)[-2]
@@ -67,9 +67,9 @@ for (i in ward_no){
 	#ward_decomposed_week[[i]] <- stl(ward_week_count_ts[[i]],s.window=5,s.degree=0,t.window=19,robust=TRUE)
 	#ward_decomposed_log_week[[i]] <- stl(log(ward_week_count_ts[[i]]),s.window=5,s.degree=0,t.window=19,robust=TRUE)
 	
-	write.csv(round(ward_decomposed_month[[i]]$time.series[,2],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Wards/ward",i,"_month_trend_data_issued.csv"))
-	write.csv(round(exp(ward_decomposed_log_month[[i]]$time.series[,2]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Wards/ward",i,"_month_log_trend_data_issued.csv"))
-	write.csv(ward_month_count[[i]], paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Wards/ward",i,"_month_raw_data_issued.csv"))
-	write.csv(round(ward_decomposed_month[[i]]$time.series[,1],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Wards/ward",i,"_month_seasonal_data_issued.csv"))
-	write.csv(round(exp(ward_decomposed_log_month[[i]]$time.series[,1]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Wards/ward",i,"_month_log_seasonal_data_issued.csv"))
+	write.csv(round(ward_decomposed_month[[i]]$time.series[,2],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Ward/ward",i,"_month_trend_data_issued.csv"))
+	write.csv(round(exp(ward_decomposed_log_month[[i]]$time.series[,2]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Precincts/Ward/ward",i,"_month_log_trend_data_issued.csv"))
+	write.csv(ward_month_count[[i]], paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Precincts/Ward/ward",i,"_month_raw_data_issued.csv"))
+	write.csv(round(ward_decomposed_month[[i]]$time.series[,1],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Precincts/Ward/ward",i,"_month_seasonal_data_issued.csv"))
+	write.csv(round(exp(ward_decomposed_log_month[[i]]$time.series[,1]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/Precincts/Ward/ward",i,"_month_log_seasonal_data_issued.csv"))
 }
