@@ -1,5 +1,6 @@
 #setwd('~/public/hows-business/import/')
 
+
 library(zoo)
 library(xts)
 print('loading issued business licenses ...')
