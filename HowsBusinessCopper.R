@@ -12,18 +12,25 @@ geo_filtered_licenses_police_district <- geo_filtered_licenses[is.na(geo_filtere
 #The data needs to be split up 50 ways. Initializing items needed to hold it.
 police_district <- list()
 police_district_month_count <- list()
-#police_district_week_count <- list()
+police_district_week_count <- list()
 police_district_month_count_ts <- list()
-#police_district_week_count_ts <- list()
+police_district_week_count_ts <- list()
 police_district_decomposed_month <- list()
 police_district_decomposed_log_month <- list()
-#police_district_decomposed_week <- list()
-#police_district_decomposed_log_week <- list()
+police_district_decomposed_week <- list()
+police_district_decomposed_log_week <- list()
 
 #build a data frame necessary for dealing with gaps in the data
 index <- seq(as.yearmon("2005-01-01"),as.yearmon("2012-06-30"),1/12)
 full <- data.frame(index,rep(0,length(index)))
 names(full) <- c("index","zero")
+
+week_index <- seq(as.Date("2005-01-07"),as.Date("2012-06-30"),7)
+full_week <- data.frame(week_index,rep(0,length(week_index)))
+names(full_week) <- c("index","zero")
+day_index <- seq(as.Date("2005-01-01"),as.Date("2012-06-30"),1)
+full_day <- data.frame(day_index,rep(0,length(day_index)))
+names(full_day) <- c("index","zero")
 
 police_district_no <- c(1:25)
 
@@ -39,37 +46,47 @@ for (i in police_district_no){
 	police_district_date_count <- police_district_date_count[police_district_date_count$date != "",]
 
 	police_district_date_count$date <- as.Date(police_district_date_count$date, "%m/%d/%Y")
-	police_district_date_count$date <- as.yearmon(police_district_date_count$date)
+	police_district_date_merge <- merge(full_day,police_district_date_count,by.x=1,by.y=1,all=T)[-2]
+	police_district_date_merge[is.na(police_district_date_merge[2]==T),2] <- 0
+	names(police_district_date_merge) <- c("date","count") 
 
 	police_district_date_count <- police_district_date_count[police_district_date_count$date >= "2005-01-01",]
 	police_district_date_count <- police_district_date_count[police_district_date_count$date < "2012-07-01",]
 
-	police_district_date_count_xts <- xts(police_district_date_count$count, police_district_date_count$date)
+    #Fill in entries for dates with zero. Necessary to regularize the data.
+	police_district_date_merge <- merge(full_day,police_district_date_count,by.x=1,by.y=1,all=T)[-2]
+	police_district_date_merge[is.na(police_district_date_merge[2]==T),2] <- 0
+	names(police_district_date_merge) <- c("date","count")
+
+	police_district_date_count_xts <- xts(police_district_date_merge$count, police_district_date_merge$date)
 
 	police_district_month_count[[i]] <- apply.monthly(police_district_date_count_xts,sum)
-	#police_district_week_count[[i]] <- apply.weekly(police_district_date_count_xts[[i]], sum)
-	
-	#Insert zeros into gaps in the data
-	police_district_month_df <- data.frame(index(police_district_month_count[[i]]),police_district_month_count[[i]])
-	police_district_month_merge <- merge(full,police_district_month_df,by.x=1,by.y=1,all=T)[-2]
-	police_district_month_merge[is.na(police_district_month_merge[2]==T),2] <- 0
+	index(police_district_month_count[[i]]) <- as.yearmon(index(police_district_month_count[[i]]))
+	police_district_week_count[[i]] <- apply.weekly(police_district_date_count_xts, sum)
 
 	#Convert data to time series
-	police_district_month_count_xts <- xts(police_district_month_merge[2],police_district_month_merge[,1])
+	police_district_month_count_xts <- xts(police_district_month_count[[1]])
 	police_district_month_count_ts[[i]] <- ts(as.numeric(police_district_month_count_xts),police_district_month_merge[1,1],frequency = 12)
 
-	#Will get to weekly data soon.
-	#police_district_week_count_ts[[i]] <- ts(as.numeric(police_district_week_count[[i]]),as.numeric(format(start(police_district_week_count[[i]]),"%Y")),frequency = 52)
+	#Convert data to time series
+	police_district_week_count_xts <- xts(police_district_week_count[[i]])
+	police_district_week_count_ts[[i]] <- ts(as.numeric(police_district_week_count_xts),police_district_month_merge[1,1],frequency = 52)
 
 	police_district_decomposed_month[[i]] <- stl(police_district_month_count_ts[[i]],s.window=7,s.degree=1,t.window=9,robust=T)
 	police_district_decomposed_log_month[[i]] <- stl(log(police_district_month_count_ts[[i]]+0.1),s.window=7,s.degree=1,t.window=9,robust=TRUE)
-
-	#police_district_decomposed_week[[i]] <- stl(police_district_week_count_ts[[i]],s.window=5,s.degree=0,t.window=19,robust=TRUE)
-	#police_district_decomposed_log_week[[i]] <- stl(log(police_district_week_count_ts[[i]]),s.window=5,s.degree=0,t.window=19,robust=TRUE)
+	
+	police_district_decomposed_week[[i]] <- stl(police_district_week_count_ts[[i]],s.window=5,s.degree=0,t.window=19,robust=TRUE)
+	police_district_decomposed_log_week[[i]] <- stl(log(police_district_week_count_ts[[i]]+0.1),s.window=5,s.degree=0,t.window=19,robust=TRUE)
 	
 	write.csv(round(police_district_decomposed_month[[i]]$time.series[,2],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_trend_data_issued.csv"))
 	write.csv(round(exp(police_district_decomposed_log_month[[i]]$time.series[,2]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_log_trend_data_issued.csv"))
 	write.csv(police_district_month_count[[i]], paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_raw_data_issued.csv"))
 	write.csv(round(police_district_decomposed_month[[i]]$time.series[,1],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_seasonal_data_issued.csv"))
 	write.csv(round(exp(police_district_decomposed_log_month[[i]]$time.series[,1]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_log_seasonal_data_issued.csv"))
+	
+	write.csv(round(police_district_decomposed_week[[i]]$time.series[,2],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_trend_data_issued.csv"))
+	write.csv(round(exp(police_district_decomposed_log_week[[i]]$time.series[,2]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_log_trend_data_issued.csv"))
+	write.csv(police_district_week_count[[i]], paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_raw_data_issued.csv"))
+	write.csv(round(police_district_decomposed_week[[i]]$time.series[,1],2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_seasonal_data_issued.csv"))
+	write.csv(round(exp(police_district_decomposed_log_week[[i]]$time.series[,1]),2), paste0("/Users/dacmorton/Documents/OpenCity/HowsBusiness/PoliceDistricts/police_district",i,"_month_log_seasonal_data_issued.csv"))	
 }
