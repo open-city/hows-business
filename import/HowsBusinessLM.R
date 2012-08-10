@@ -1,4 +1,4 @@
-#Not sure we want to use a straight linear regression model, especially if we're interested in prediction, but these models perform uncannily well on the data. All evidence points to the monthly being better than the quarterly, although both are strong, but some evidence points towards an intermediate model being adequate. The residuals of the monthly model seem to be an AR(1) series, but I need to do some more work.
+#Not sure we want to use a straight linear regression model, especially if we're interested in prediction, but these models perform uncannily well on the data. All evidence points to the monthly being better than the quarterly, although both are strong, but some evidence points towards an intermediate model being adequate. The residuals of the monthly model seem to be a classic AR(1) time series. Predictive power is limited.
 
 library(MASS)
 library(leaps)
@@ -78,4 +78,15 @@ month_count_resid <- month_count_ts - hows.business.fitted_ts
 #Looks like a classic AR(1)
 acf(month_count_resid)
 pacf(month_count_resid)
-#To be continued...
+
+month_count_resid.yw <- ar.yw(month_count_resid,order=1)
+resid.pred <- predict(month_count_resid.yw,n.ahead=12)
+U.pred = resid.pred$pred + 1.96*resid.pred$se
+L.pred = resid.pred$pred - 1.96*resid.pred$se
+minx = min(month_count_resid,L.pred); maxx = max(month_count_resid,U.pred)
+
+#Prediction interval is too wide to be useful.
+ts.plot(month_count_resid, resid.pred$pred, xlim=c(2005,2014), ylim=c(minx,maxx))
+lines(resid.pred$pred, col="red", type="o")
+lines(U.pred, col="blue", lty="dashed")
+lines(L.pred, col="blue", lty="dashed")
