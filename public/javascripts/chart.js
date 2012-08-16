@@ -2,6 +2,7 @@ $(function () {
   var chartTrend;
   var chartRaw;
   var chartSeason;
+  var chartUnemployment;
   $(document).ready(function() {
   
     source = 'Source: City of Chicago';
