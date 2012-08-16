@@ -3,7 +3,7 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
   return new Highcharts.Chart({
       chart: {
           renderTo: renderTo,
-          type: 'line',
+          type: 'spline',
           marginRight: 130,
           marginBottom: 25
       },
