@@ -1,7 +1,12 @@
 - content_for :javascripts do
   = include_javascript :highcharts
   = include_javascript :chart_helper
-  = include_javascript :chart
+  = include_javascript :fusion_tables
+  
+  :javascript
+    $(function () {
+      FusionTables.getChartData();
+    });
 
 .row-fluid
   .span12

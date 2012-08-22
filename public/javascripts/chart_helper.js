@@ -1,5 +1,6 @@
 var ChartHelper = {};
 ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor, data, startDate, pointInterval) {
+  console.log("rendering to: " + renderTo);
   return new Highcharts.Chart({
       chart: {
           renderTo: renderTo,
@@ -18,7 +19,7 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
           x: -20 //center
       },
       subtitle: {
-          text: sourceTxt,
+          text: "Source: " + sourceTxt,
           x: -20
       },
       xAxis: {
