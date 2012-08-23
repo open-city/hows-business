@@ -5,21 +5,12 @@
   
   :javascript
     $(function () {
-      FusionTables.getChartData("");
+      FusionTables.getChartData("Name IN ('License Trend', 'Permit Trend', 'Cook County Unemployment Season')");
     });
 
 .row-fluid
   .span12
-    .alert
-      %h3 It's been better!
-      %p
-        Short paragraph explaining why
+    .alert.alert-info
+      %h3 This is for Forest!
         
     #charts
-    
-    %hr
-    %h3
-      About
-    
-    %p
-      Prof. Forest explains it all!

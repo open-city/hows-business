@@ -29,9 +29,9 @@ var FusionTables = {
     $.ajax({url: "https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+FusionTables.googleApiKey, dataType: "jsonp"});
   },
   
-  getChartData: function() {
+  getChartData: function(whereClause) {
     var selectColumns = "*";
-    FusionTables.query(selectColumns, "","FusionTables.displayChartData");
+    FusionTables.query(selectColumns, whereClause,"FusionTables.displayChartData");
   },
   
   displayChartData: function(json) {
