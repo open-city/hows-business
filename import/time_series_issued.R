@@ -100,6 +100,8 @@ names(mc) <- c("month", "count")
 #output raw and trend data to fusion table. We'll clear the table and
 #rewrite
 auth = ft.connect(login.username, login.password)
-table_id = ft.idfromtablename(auth, "Monthly Count")
-ft.executestatement(auth, paste("DELETE FROM", table_id))
-ft.exportdata(auth, mc, 'STL', FALSE)
+ft.executestatement(auth, sql)
+
+updateFT(auth, login.table_id, 'License Raw', month_count)
+
+

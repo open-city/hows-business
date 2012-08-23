@@ -1,4 +1,4 @@
-library(RCurl)
+library(GFu
 
 ft.connect <- function(username, password) {
   url = "https://www.google.com/accounts/ClientLogin";
@@ -181,4 +181,23 @@ ft.exportdata <- function(auth, input_frame, table_name, create_table) {
     	}
         ft.executestatement(auth, insert_sql_big)
     }	 
+}
+
+updateFT <- function(auth, table_id, name, data) {
+  sql <- paste('SELECT ROWID from', table_id)
+  sql <- paste(sql, " WHERE Name = '", name, sep='')
+  sql <- paste(sql, "'", sep='')
+  ret <- ft.executestatement(auth, sql)
+  row.id <- strsplit(ret, '\n')[[1]][2]
+  print(row.id)
+  
+  sql <- paste('UPDATE', table_id)
+  sql <- paste(sql, "SET Data = '")
+  sql <- paste(sql, paste(data, collapse=','), sep='')
+  sql <- paste(sql, "' WHERE rowid='", sep='')
+  sql <- paste(sql, row.id, sep = '')
+  sql <- paste(sql, "'", sep = '')
+  ft.executestatement(auth, sql)
+
+
 }
