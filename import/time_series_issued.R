@@ -5,8 +5,9 @@ library(zoo)
 library(xts)
 print('loading issued business licenses ...')
 
-#import csv
-raw_licenses <- read.csv('data/BusinessLicenseIssued.csv')
+#import data
+license.url <- "http://data.cityofchicago.org/api/views/r5kz-chrr/rows.csv?search=ISSUE"
+license.data <- read.csv(license.url)
 
 derived_business_licenses <- c("Auto Gas Pump Certification",
                                "Special Event Food",
@@ -86,14 +87,15 @@ decomposed_week <- stl(log(week_count_ts),
 
 plot(decomposed_week)
 
-#output raw and trend data to csv
-write.csv(round(exp(decomposed_month$time.series[,2]),2), "data/trend_data_issued.csv")
-write.csv(month_count, "data/raw_data_issued.csv")
-write.csv(round(exp(decomposed_month$time.series[,1]),2), "data/seasonal_data_issued.csv")
+trend_ouput <- round(exp(decomposed_month$time.series[,2]),2)
+season_output <- round(exp(decomposed_month$time.series[,1]),2)
 
 #output raw and trend data to fusion table. We'll clear the table and
 #rewrite
 auth = ft.connect(login.username, login.password)
 updateFT(auth, login.table_id, 'License Raw', month_count)
+updateFT(auth, login.table_id, 'License Trend', trend_output)
+updateFT(auth, login.table_id, 'License Season', season_output)
+
 
 
