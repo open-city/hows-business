@@ -1,6 +1,6 @@
-#setwd('~/public/hows-business/import/')
-
-
+setwd('~/public/hows-business/import/')
+source('fusion-tables.R')
+source('login.R')
 library(zoo)
 library(xts)
 print('loading issued business licenses ...')
@@ -90,3 +90,16 @@ plot(decomposed_week)
 write.csv(round(exp(decomposed_month$time.series[,2]),2), "data/trend_data_issued.csv")
 write.csv(month_count, "data/raw_data_issued.csv")
 write.csv(round(exp(decomposed_month$time.series[,1]),2), "data/seasonal_data_issued.csv")
+
+# Transform the xts object into a dataframe where one column is the
+# month ID and the other is the monthly count
+mc <- as.data.frame(month_count)
+mc <- cbind(rownames(mc), mc)
+names(mc) <- c("month", "count")
+
+#output raw and trend data to fusion table. We'll clear the table and
+#rewrite
+auth = ft.connect(login.username, login.password)
+table_id = ft.idfromtablename(auth, "Monthly Count")
+ft.executestatement(auth, paste("DELETE FROM", table_id))
+ft.exportdata(auth, mc, 'STL', FALSE)
