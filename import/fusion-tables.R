@@ -1,4 +1,4 @@
-library(GFu
+library(RCurl)
 
 ft.connect <- function(username, password) {
   url = "https://www.google.com/accounts/ClientLogin";

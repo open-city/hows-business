@@ -91,17 +91,9 @@ write.csv(round(exp(decomposed_month$time.series[,2]),2), "data/trend_data_issue
 write.csv(month_count, "data/raw_data_issued.csv")
 write.csv(round(exp(decomposed_month$time.series[,1]),2), "data/seasonal_data_issued.csv")
 
-# Transform the xts object into a dataframe where one column is the
-# month ID and the other is the monthly count
-mc <- as.data.frame(month_count)
-mc <- cbind(rownames(mc), mc)
-names(mc) <- c("month", "count")
-
 #output raw and trend data to fusion table. We'll clear the table and
 #rewrite
 auth = ft.connect(login.username, login.password)
-ft.executestatement(auth, sql)
-
 updateFT(auth, login.table_id, 'License Raw', month_count)
 
 
