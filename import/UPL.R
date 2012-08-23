@@ -1,26 +1,30 @@
 library(tframe)
-
 unemployment.df <- read.table('http://research.stlouisfed.org/fred2/data/ILCOOK1URN.txt',
-                                   skip=11,
-                                   header = TRUE)
+                              skip=11,
+                              header = TRUE)
 
 names(unemployment.df) <- c("date", "value")
 unemployment.df$date <- as.Date(unemployment.df$date, "%Y-%m-%d")
 unemployment.df$month <- months(unemployment.df$date)
 
-unemployment.ts <-ts(unemployment$value,
+upl_ts <-ts(unemployment$value,
                      start=c(1990, 1),
                      frequency=12)
 
-
 #Take the stl decomposition and then linear and cubic models
 upl_stl <- stl(log(upl_ts),s.window=7,s.degree=1,t.window=9,robust=TRUE)
-
 upl_trend <- upl_stl$time.series[,'trend']
-upl_truncate <- tfwindow(upl_trend,start=c(2005,1))
+upl_trend <- tfwindow(upl_trend,start=c(2005,1))
+upl_season <- upl_stl$time.series[,'seasonal']
+upl_season <- tfwindow(upl_season,start=c(2005,1))
 
-plot(upl_truncate)
+updateFT(auth,login.table_id,'Cook County Unemployment',upl_ts)
+updateFT(auth,login.table_id,'Cook County Unemployment Trend', exp(upl_trend))
+updateFT(auth,login.table_id,'Cook County Unemployment Season', exp(upl_season))
 
+
+#####################################################################
+upl_decomp <- decompose(upl_ts,type=c('additive'))
 
 
 plot(upl_trend)
