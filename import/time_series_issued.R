@@ -55,7 +55,7 @@ date_count <- xts(date_count$count, date_count$date)
 
 month_count <- apply.monthly(date_count, sum)
 month_count_ts <- ts(as.numeric(month_count),
-                     start(month_count),
+                     c(2005, 1),
                      frequency = 12)
 
 decomposed_month <- stl(log(month_count_ts),
