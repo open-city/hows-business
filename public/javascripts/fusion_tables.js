@@ -39,11 +39,11 @@ var FusionTables = {
     console.log(data.length);
     for (var i = 0; i < data.length; i++) {
         var row = data[i];
-        var rowData = row[6].split(",");
+        var rowData = row[4].split(",");
         for(var j=0; j<rowData.length; j++) { rowData[j] = +rowData[j]; } 
         //console.log(rowData);
-        //renderTo, title, sourceTxt, yaxisLabel, fillColor, data, startDate, pointInterval
-        ChartHelper.create(row[1], row[2], row[3], row[4], row[5], rowData, Date.UTC(row[7], 0, 28), row[8]);
+        //title, sourceTxt, yaxisLabel, data, startDate, pointInterval
+        ChartHelper.create(i, row[1], row[2], row[3], rowData, Date.UTC(row[5], 0, 28), row[6]);
     }
   }
 }

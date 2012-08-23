@@ -1,9 +1,13 @@
 var ChartHelper = {};
-ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor, data, startDate, pointInterval) {
-  console.log("rendering to: " + renderTo);
+ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, data, startDate, pointInterval) {
+  //console.log("rendering to: #chart" + iteration);
+  
+  var colorList = ["#518fc9", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#FF7F00", "#CAB2D6", "#6A3D9A", "#518fc9", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#FF7F00", "#CAB2D6", "#6A3D9A"];
+  
+  $("#charts").append("<div class='chart' id='chart" + iteration + "'></div>")
   return new Highcharts.Chart({
       chart: {
-          renderTo: renderTo,
+          renderTo: "chart" + iteration,
           type: 'spline',
           marginRight: 130,
           marginBottom: 25
@@ -35,7 +39,7 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
         series: {
           lineWidth: 2,
           marker: {
-            fillColor: fillColor,
+            fillColor: colorList[iteration],
             radius: 0,
             states: {
               hover: {
@@ -69,7 +73,7 @@ ChartHelper.create = function(renderTo, title, sourceTxt, yaxisLabel, fillColor,
           borderWidth: 0
       },
       series: [{
-          color: fillColor,
+          color: colorList[iteration],
           data: data,
           showInLegend: false
       }]
