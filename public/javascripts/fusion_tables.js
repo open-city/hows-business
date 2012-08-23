@@ -20,7 +20,9 @@ var FusionTables = {
     var queryStr = [];
     queryStr.push("SELECT " + selectColumns);
     queryStr.push(" FROM " + FusionTables.fusionTableId);
-    queryStr.push(" WHERE " + whereClause);
+    
+    if (whereClause != "")
+      queryStr.push(" WHERE " + whereClause);
   
     var sql = encodeURIComponent(queryStr.join(" "));
     console.log("https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+FusionTables.googleApiKey);
@@ -29,7 +31,7 @@ var FusionTables = {
   
   getChartData: function() {
     var selectColumns = "*";
-    FusionTables.query(selectColumns, "Name NOT EQUAL TO '' ","FusionTables.displayChartData");
+    FusionTables.query(selectColumns, "","FusionTables.displayChartData");
   },
   
   displayChartData: function(json) {
