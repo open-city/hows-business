@@ -1,13 +1,12 @@
 setwd('~/public/hows-business/import/')
 source('fusion-tables.R')
 source('login.R')
-library(zoo)
 library(xts)
 print('loading issued business licenses ...')
 
 #import data
 license.url <- "http://data.cityofchicago.org/api/views/r5kz-chrr/rows.csv?search=ISSUE"
-license.data <- read.csv(license.url)
+raw_licenses <- read.csv(license.url)
 
 derived_business_licenses <- c("Auto Gas Pump Certification",
                                "Special Event Food",
@@ -34,9 +33,10 @@ derived_business_licenses <- c("Auto Gas Pump Certification",
                                "Food - Shared Kitchen - Supplemental")
 
 #filter out licenses that alway require a business license
-filtered_licenses <- raw_licenses[!raw_licenses$LICENSE.DESCRIPTION %in% derived_business_licenses, c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
-names(filtered_licenses) <- c("LICENSE.DESCRIPTION", 
-                              "date")
+filtered_licenses <- raw_licenses[!raw_licenses$LICENSE.DESCRIPTION
+                                  %in% derived_business_licenses,
+                                  c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
+names(filtered_licenses) <- c("LICENSE.DESCRIPTION", "date")
 filtered_licenses$date <- factor(filtered_licenses$date)
 
 # Count Licenses By Day
@@ -44,11 +44,10 @@ date_count <- table(filtered_licenses$date)
 date_count <- as.data.frame(date_count)
 names(date_count) <- c("date", "count")
 date_count <- date_count[date_count$date != "",]
-date_count$date <- as.Date(date_count$date, 
-          	                        "%m/%d/%Y")
+date_count$date <- as.Date(date_count$date, "%m/%d/%Y")
 
 # Select only whole months
-begin_curr_month <- as.Date(as.yearmon(Sys.Date()), frac = 0)
+begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 
 date_count <- date_count[date_count$date >= "2005-01-01",]
 date_count <- date_count[date_count$date < begin_curr_month,]
@@ -60,10 +59,10 @@ month_count_ts <- ts(as.numeric(month_count),
                      frequency = 12)
 
 decomposed_month <- stl(log(month_count_ts),
-                         s.window=7,
-                         s.degree=1,
-                         t.window=9,
-                         robust=TRUE)
+                        s.window=7,
+                        s.degree=1,
+                        t.window=9,
+                        robust=TRUE)
 
 trend_ouput <- round(exp(decomposed_month$time.series[,2]),2)
 season_output <- round(exp(decomposed_month$time.series[,1]),2)
