@@ -35,57 +35,35 @@ derived_business_licenses <- c("Auto Gas Pump Certification",
 
 #filter out licenses that alway require a business license
 filtered_licenses <- raw_licenses[!raw_licenses$LICENSE.DESCRIPTION %in% derived_business_licenses, c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
-
-
-#filtered_licenses <- raw_licenses[,c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
-
 names(filtered_licenses) <- c("LICENSE.DESCRIPTION", 
                               "date")
-
 filtered_licenses$date <- factor(filtered_licenses$date)
 
-
+# Count Licenses By Day
 date_count <- table(filtered_licenses$date)
 date_count <- as.data.frame(date_count)
 names(date_count) <- c("date", "count")
 date_count <- date_count[date_count$date != "",]
-
-
 date_count$date <- as.Date(date_count$date, 
           	                        "%m/%d/%Y")
 
-date_count <- date_count[date_count$date >= "2005-01-01",]
-date_count <- date_count[date_count$date < "2012-07-01",]
+# Select only whole months
+begin_curr_month <- as.Date(as.yearmon(Sys.Date()), frac = 0)
 
+date_count <- date_count[date_count$date >= "2005-01-01",]
+date_count <- date_count[date_count$date < begin_curr_month,]
 date_count <- xts(date_count$count, date_count$date)
 
 month_count <- apply.monthly(date_count, sum)
-week_count <- apply.weekly(date_count, sum)
-
 month_count_ts <- ts(as.numeric(month_count),
                      start(month_count),
                      frequency = 12)
-
-week_count_ts <- ts(as.numeric(week_count),
-                     start(week_count),
-                     frequency = 52)
 
 decomposed_month <- stl(log(month_count_ts),
                          s.window=7,
                          s.degree=1,
                          t.window=9,
                          robust=TRUE)
-
-plot(decomposed_month)
-
-
-decomposed_week <- stl(log(week_count_ts),
-                       s.window=5,
-                       s.degree=0,
-                       t.window=19,
-                       robust=TRUE)
-
-plot(decomposed_week)
 
 trend_ouput <- round(exp(decomposed_month$time.series[,2]),2)
 season_output <- round(exp(decomposed_month$time.series[,1]),2)
