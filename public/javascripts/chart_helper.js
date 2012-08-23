@@ -2,7 +2,7 @@ var ChartHelper = {};
 ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, data, startDate, pointInterval) {
   //console.log("rendering to: #chart" + iteration);
   
-  var colorList = ["#518fc9", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#FF7F00", "#CAB2D6", "#6A3D9A", "#518fc9", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#FF7F00", "#CAB2D6", "#6A3D9A"];
+  var colorList = ["#4B0082", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#008000", "#6A3D9A", "#4B0082", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#008000", "#6A3D9A"];
   
   $("#charts").append("<div class='chart' id='chart" + iteration + "'></div>")
   return new Highcharts.Chart({
