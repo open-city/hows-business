@@ -1,4 +1,4 @@
-upl <- read.csv("/Users/dacmorton/Documents/OpenCity/HowsBusiness/cook_county_upl.csv")
+upl <- read.csv("cook_county_upl.csv")
 upl_ts <-ts(upl[,2],start=1990,frequency=12)
 
 Months <- c(rep(c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep',"Oct",'Nov','Dec'),22),c('Jan','Feb','Mar','Apr','May','Jun'))
