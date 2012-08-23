@@ -1,4 +1,4 @@
-month_count <- read.csv("/Users/dacmorton/Documents/OpenCity/HowsBusiness/MonthlyLicense.csv")
+month_count <- read.csv("/Users/dacmorton/Documents/OpenCity/HowsBusiness/import/MonthlyLicense.csv")
 
 month_count_ts <- ts(month_count[,2],start=2005,frequency=12)
 acf(month_count_ts)
@@ -107,3 +107,16 @@ for (i in 2:20){
 }
 plot(2:20,box)
 abline(h=0.05)
+
+#Spectral Analysis suggest AR(12) or AR(13) model
+n = length(month_count_ts)
+ AIC = rep(0, 30) -> AICc -> BIC
+ for (k in 1:30){
+fit = arima(month_count_ts, order=c(k,0,0))
+sigma2 = var(fit$resid, na.rm=TRUE)
+BIC[k] = log(sigma2) + (k*log(n)/n)
+AICc[k] = log(sigma2) + ((n+k)/(n-k-2))
+AIC[k] = log(sigma2) + ((n+2*k)/n) }
+IC = cbind(AIC, BIC+1)
+ ts.plot(IC, type="o", xlab="p", ylab="AIC / BIC",col=c(1,2))
+text(15, -1.5, "AIC"); text(15, -1.38, "BIC")
