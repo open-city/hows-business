@@ -26,6 +26,7 @@ module OpenCity
 
     get "/" do
       response.headers["X-Frame-Options"] = 'GOFORIT'
+      @current_menu = "home"
       haml :index
     end
     

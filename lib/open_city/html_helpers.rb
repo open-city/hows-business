@@ -64,5 +64,13 @@ module OpenCity
 
       element
     end
+
+    def current_menu
+      @current_menu
+    end
+    
+    def current_menu_class(menu_name)
+      return "active" if current_menu == menu_name
+    end
   end
 end

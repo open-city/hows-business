@@ -22,6 +22,11 @@
   %body
     .container-fluid
       .page-header
+        %ul.nav.nav-pills.pull-right
+          %li{:class => current_menu_class("home")}
+            %a{:href => "/"} Home
+          %li{:class => current_menu_class("about")}
+            %a{:href => "/about"} About
         %h1
           How's Business?
           %small
