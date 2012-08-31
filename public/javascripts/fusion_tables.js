@@ -80,7 +80,11 @@ var FusionTables = {
         }
         dataArray[i] = rowData;
     }
+
+    var startDate = Date.UTC(row[7], 0, 28);
+    if (row[8] == 'quarter')
+      startDate = Date.UTC(row[7], 0, 1);
     //iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval
-    ChartHelper.create(FusionTables.convertToSlug(row[0]), row[3], row[4], row[5], dataArray, Date.UTC(row[7], 0, 28), row[8]);
+    ChartHelper.create(FusionTables.convertToSlug(row[0]), row[3], row[4], row[5], dataArray, startDate, row[8]);
   }
 }

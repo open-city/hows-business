@@ -15,6 +15,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
           color: colorHash["#c30c30"],
           data: dataArray[0],
           showInLegend: false,
+          name: "Raw numbers",
           lineWidth: 3
       }];
   }
@@ -64,7 +65,6 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
       },
       plotOptions: {
         series: {
-          lineWidth: 2,
           marker: {
             fillColor: colorHash[iteration],
             radius: 0,
@@ -80,7 +80,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
           shadow: false,
           states: {
              hover: {
-                lineWidth: 2
+                lineWidth: 3
              }
           }
         }

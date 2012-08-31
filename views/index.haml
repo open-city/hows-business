@@ -13,15 +13,28 @@
 
 .row-fluid
   .span6.well
-    %h3 New Business Licenses in Chicago
-    %p 
+    %h3 
+      New Business Licenses
+      %small Chicago
+    %p
+      Source: 
+      %a{:href => "https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr"} City of Chicago
+      |
       Trend: 
       %span.label.label-warning
         It's been better!
+
+        
     #chart_Business-Licenses.chart
   .span6.well
-    %h3 Unemployment in Cook County
-    %p 
+    %h3 
+      Unemployment
+      %small
+        Cook County
+    %p
+      Source: 
+      %a{:href => "http://research.stlouisfed.org/fred2/series/ILCOOK1URN"} Federal Reserve Economic Data 
+      |
       Trend: 
       %span.label.label-success
         It's booming!
@@ -29,15 +42,28 @@
 
 .row-fluid
   .span6.well
-    %h3 New Building Permits in Chicago
+    %h3 
+      Building Permits
+      %small
+        Chicago
     %p 
+      Source:
+      %a{:href => "https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu"} City of Chicago
+      |
       Trend: 
       %span.label.label-warning
         It's been better!
     #chart_Building-Permits.chart
   .span6.well
-    %h3 Housing Foreclosures in Chicago
+    %h3 
+      Housing Foreclosures
+      %small
+        Chicago
+        
     %p 
+      Source:
+      %a{:href => "http://www.woodstockinst.org/"} Woodstock Institute
+      |
       Trend: 
       %span.label.label-important
         It's not looking good
