@@ -5,21 +5,46 @@
   
   :javascript
     $(function () {
-      FusionTables.getChartGrouping("Grouping = 'Business License' AND Type IN ('Trend', 'Raw')");
+      FusionTables.getChartGrouping("Grouping = 'Business Licenses' AND Type IN ('Trend', 'Raw')");
       FusionTables.getChartGrouping("Grouping = 'Building Permits' AND Type IN ('Trend', 'Raw')");
       FusionTables.getChartGrouping("Grouping = 'Unemployment' AND Type IN ('Trend', 'Raw')");
       FusionTables.getChartList("Name = 'Foreclosure Quarterly'");
     });
 
 .row-fluid
-  .span12
-    .alert
-      %h3 It's been better!
-      %p
-        Short paragraph explaining why
-        
-    #charts
+  .span6.well
+    %h3 New Business Licenses in Chicago
+    %p 
+      Trend: 
+      %span.label.label-warning
+        It's been better!
+    #chart_Business-Licenses.chart
+  .span6.well
+    %h3 Unemployment in Cook County
+    %p 
+      Trend: 
+      %span.label.label-success
+        It's booming!
+    #chart_Unemployment.chart
+
+.row-fluid
+  .span6.well
+    %h3 New Building Permits in Chicago
+    %p 
+      Trend: 
+      %span.label.label-warning
+        It's been better!
+    #chart_Building-Permits.chart
+  .span6.well
+    %h3 Housing Foreclosures in Chicago
+    %p 
+      Trend: 
+      %span.label.label-important
+        It's not looking good
+    #chart_Foreclosures.chart
     
+.row-fluid
+  .span12
     %hr
     %h3
       About

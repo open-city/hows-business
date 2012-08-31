@@ -1,123 +1,58 @@
 var ChartHelper = {};
-ChartHelper.renderToList = function(iteration, title, sourceTxt, yaxisLabel, data, startDate, pointInterval) {
-  console.log("rendering to: #chart_list_" + iteration);
-  console.log("title: " + title);
-  console.log("sourceTxt: " + sourceTxt);
-  console.log("yaxisLabel: " + yaxisLabel);
-  console.log("data: " + data);
-  console.log("startDate: " + startDate);
-  console.log("pointInterval: " + pointInterval);
-  var colorList = ["#4B0082", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#008000", "#6A3D9A", "#4B0082", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#008000", "#6A3D9A"];
+ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval) {
+  console.log("rendering to: #chart_" + iteration);
+  // console.log("title: " + title);
+  // console.log("sourceTxt: " + sourceTxt);
+  // console.log("yaxisLabel: " + yaxisLabel);
+  // console.log("dataArray: " + dataArray);
+  // console.log("startDate: " + startDate);
+  // console.log("pointInterval: " + pointInterval);
   
-  $("#charts").append("<div class='chart' id='chart_list_" + iteration + "'></div>")
+  var colorHash = ChartHelper.getColors(iteration);
+  var seriesData;
+  if (dataArray.length == 1) {
+    seriesData = [{
+          color: colorHash["#c30c30"],
+          data: dataArray[0],
+          showInLegend: false,
+          lineWidth: 3
+      }];
+  }
+  else {
+    seriesData = [{
+          color: "#cccccc",
+          data: dataArray[0],
+          name: "Raw numbers"
+        }, {
+          color: colorHash["trend"],
+          data: dataArray[1],
+          name: "Average trend",
+          lineWidth: 3
+        }
+      ]
+
+  }
+
+  //$("#charts").append("<div class='chart' id='chart_grouping_" + iteration + "'></div>")
   return new Highcharts.Chart({
       chart: {
-          renderTo: "chart_list_" + iteration,
+          renderTo: "chart_" + iteration,
           type: 'line',
-          marginRight: 130,
+          marginRight: 10,
           marginBottom: 25
-      },
-      legend: { 
-        enabled: false 
-      },
-      credits: { 
-        enabled: false 
-      },
-      title: {
-          text: title,
-          x: -20 //center
-      },
-      subtitle: {
-          text: "Source: " + sourceTxt,
-          x: -20
-      },
-      xAxis: {
-          dateTimeLabelFormats: { year: "%Y" },
-          type: "datetime"
-      },
-      yAxis: {
-          title: {
-              text: yaxisLabel
-          }
-      },
-      plotOptions: {
-        series: {
-          lineWidth: 2,
-          marker: {
-            fillColor: colorList[iteration],
-            radius: 0,
-            states: {
-              hover: {
-                enabled: true,
-                radius: 5
-              }
-            }
-          },
-          pointInterval: ChartHelper.pointInterval(pointInterval),  
-          pointStart: startDate,
-          shadow: false,
-          states: {
-             hover: {
-                lineWidth: 2
-             }
-          }
-        }
-      },
-      tooltip: {
-          crosshairs: true,
-          formatter: function() {
-            return "<strong>" + ChartHelper.toolTipDateFormat(pointInterval, this.x) + "</strong><br/>" + yaxisLabel + ": " + this.y;
-          }
       },
       legend: {
-          layout: 'vertical',
-          align: 'right',
-          verticalAlign: 'top',
-          x: -10,
-          y: 100,
-          borderWidth: 0
-      },
-      series: [{
-          color: colorList[iteration],
-          data: data,
-          showInLegend: false
-      }]
-    });
-  }
-  
-ChartHelper.renderToGrouping = function(iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval) {
-  console.log("rendering to: #chart_grouping_" + iteration);
-  console.log("title: " + title);
-  console.log("sourceTxt: " + sourceTxt);
-  console.log("yaxisLabel: " + yaxisLabel);
-  console.log("dataArray: " + dataArray);
-  console.log("startDate: " + startDate);
-  console.log("pointInterval: " + pointInterval);
-  
-  var colorList = ["#4B0082", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#008000", "#6A3D9A", "#4B0082", "#1F78B4", "#c30c30", "#33A02C", "#C09853", "#E31A1C", "#7C54FB", "#008000", "#6A3D9A"];
-  
-  $("#charts").append("<div class='chart' id='chart_grouping_" + iteration + "'></div>")
-  return new Highcharts.Chart({
-      chart: {
-          renderTo: "chart_grouping_" + iteration,
-          type: 'line',
-          marginRight: 130,
-          marginBottom: 25
-      },
-      legend: { 
-        enabled: false 
+        backgroundColor: "#ffffff",
+        borderColor: "#cccccc",
+        floating: true,
+        verticalAlign: "top",
+        x: 150,
+        y: 15
       },
       credits: { 
         enabled: false 
       },
-      title: {
-          text: title,
-          x: -20 //center
-      },
-      subtitle: {
-          text: "Source: " + sourceTxt,
-          x: -20
-      },
+      title: null,
       xAxis: {
           dateTimeLabelFormats: { year: "%Y" },
           type: "datetime"
@@ -131,7 +66,7 @@ ChartHelper.renderToGrouping = function(iteration, title, sourceTxt, yaxisLabel,
         series: {
           lineWidth: 2,
           marker: {
-            fillColor: colorList[iteration],
+            fillColor: colorHash[iteration],
             radius: 0,
             states: {
               hover: {
@@ -161,25 +96,7 @@ ChartHelper.renderToGrouping = function(iteration, title, sourceTxt, yaxisLabel,
           },
           shared: true
       },
-      legend: {
-        backgroundColor: "#ffffff",
-        borderColor: "#cccccc",
-        floating: true,
-        verticalAlign: "top",
-        x: 300,
-        y: 60
-      },
-      series: [
-        {
-          color: "#4B0082",
-          data: dataArray[0],
-          name: "Raw numbers"
-        }, {
-          color: "#1F78B4",
-          data: dataArray[1],
-          name: "Seasonal trend"
-        }
-      ]
+      series: seriesData
     });
   }
 
@@ -215,5 +132,18 @@ ChartHelper.toolTipDateFormat = function(interval, x) {
     return Highcharts.dateFormat("%H:00", x);
   else
     return 1;
+}
+
+ChartHelper.getColors = function(name) {
+  if (name == "Business-Licenses")
+    return {"raw": "#FDAE61", "trend": "#1B9E77"}
+  else if (name == "Unemployment")
+    return {"raw": "#FEE08B", "trend": "#D95F02"}
+  else if (name == "Building-Permits")
+    return {"raw": "", "trend": "#7570B3"}
+  else if (name == "Foreclosures")
+    return {"raw": "", "trend": "#E7298A"}
+  else
+    return {"raw": "", "trend": ""}
 }
 

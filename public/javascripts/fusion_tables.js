@@ -28,7 +28,7 @@ var FusionTables = {
       queryStr.push(" ORDER BY " + orderBy);
   
     var sql = encodeURIComponent(queryStr.join(" "));
-    console.log("https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+FusionTables.googleApiKey);
+    //console.log("https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+FusionTables.googleApiKey);
     $.ajax({url: "https://www.googleapis.com/fusiontables/v1/query?sql="+sql+"&callback="+callback+"&key="+FusionTables.googleApiKey, dataType: "jsonp"});
   },
 
@@ -49,10 +49,15 @@ var FusionTables = {
     for (var i = 0; i < data.length; i++) {
         var row = data[i];
         var rowData = row[6].split(",");
-        for(var j=0; j<rowData.length; j++) { rowData[j] = +rowData[j]; } 
+        for(var j=0; j<rowData.length; j++) { 
+          if (rowData[j] == 0)
+            rowData[j] = null
+          else
+            rowData[j] = +rowData[j]; 
+        } 
         //console.log(rowData);
         //title, sourceTxt, yaxisLabel, data, startDate, pointInterval
-        ChartHelper.renderToList(i, row[3], row[4], row[5], rowData, Date.UTC(row[7], 0, 28), row[8]);
+        ChartHelper.create(FusionTables.convertToSlug(row[0]), row[3], row[4], row[5], [rowData], Date.UTC(row[7], 0, 28), row[8]);
     }
   },
 
@@ -67,10 +72,15 @@ var FusionTables = {
     for (var i = 0; i < data.length; i++) {
         var row = data[i];
         var rowData = row[6].split(",");
-        for(var j=0; j<rowData.length; j++) { rowData[j] = +rowData[j]; }
+        for(var j=0; j<rowData.length; j++) { 
+          if (rowData[j] == 0)
+            rowData[j] = null
+          else
+            rowData[j] = +rowData[j]; 
+        }
         dataArray[i] = rowData;
     }
     //iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval
-    ChartHelper.renderToGrouping(FusionTables.convertToSlug(row[0]), row[3], row[4], row[5], dataArray, Date.UTC(row[7], 0, 28), row[8]);
+    ChartHelper.create(FusionTables.convertToSlug(row[0]), row[3], row[4], row[5], dataArray, Date.UTC(row[7], 0, 28), row[8]);
   }
 }
