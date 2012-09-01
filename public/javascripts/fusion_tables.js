@@ -37,36 +37,13 @@ var FusionTables = {
     if (text == undefined) return '';
     return (text+'').replace(/ /g,'-').replace(/[^\w-]+/g,'');
   },
-  
-  getChartList: function(whereClause) {
-    var selectColumns = "*";
-    FusionTables.query(selectColumns, whereClause, "", "FusionTables.displayChartList");
-  },
-  
-  displayChartList: function(json) {
-    data = json["rows"]; 
-    //console.log(data.length);
-    for (var i = 0; i < data.length; i++) {
-        var row = data[i];
-        var rowData = row[6].split(",");
-        for(var j=0; j<rowData.length; j++) { 
-          if (rowData[j] == 0)
-            rowData[j] = null
-          else
-            rowData[j] = +rowData[j]; 
-        } 
-        //console.log(rowData);
-        //title, sourceTxt, yaxisLabel, data, startDate, pointInterval
-        ChartHelper.create(FusionTables.convertToSlug(row[0]), row[3], row[4], row[5], [rowData], Date.UTC(row[7], 0, 28), row[8]);
-    }
-  },
 
-  getChartGrouping: function(whereClause) {
+  getChart: function(whereClause) {
     var selectColumns = "*";
-    FusionTables.query(selectColumns, whereClause, "Type", "FusionTables.displayChartGrouping");
+    FusionTables.query(selectColumns, whereClause, "Type", "FusionTables.displayChart");
   },
   
-  displayChartGrouping: function(json) {
+  displayChart: function(json) {
     data = json["rows"]; 
     var dataArray = [];
     for (var i = 0; i < data.length; i++) {
