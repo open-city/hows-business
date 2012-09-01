@@ -48,7 +48,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
         floating: true,
         verticalAlign: "top",
         x: 20,
-        y: 131
+        y: 125
       },
       credits: { 
         enabled: false 
