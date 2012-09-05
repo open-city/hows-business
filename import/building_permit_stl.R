@@ -21,7 +21,7 @@ permit$count[575] <- mean(permit[permit$date < "2007-07-14"
 # Select only whole months
 begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 
-permit <- permit[permit$date >= "2006-01-01"
+permit <- permit[permit$date >= "2006-01-01",
                  & permit$date < begin_curr_month,]
 
 permit_xts <- xts(permit$count, permit$date)
@@ -41,9 +41,15 @@ permit_trend <- round(exp(permit_stl$time.series[,'trend']), 2)
 permit_season <- round(exp(permit_stl$time.series[,'seasonal']), 2)
 
 auth = ft.connect(login.username, login.password)
-updateFT(auth, login.table_id, 'Permit Raw', month_permit_ts)
-updateFT(auth,login.table_id,'Permit Trend', permit_trend)
-updateFT(auth,login.table_id,'Permit Season', permit_season)
+
+month_data = paste(month_permit_ts, collapse=',')
+month_data = paste(paste(rep(',', 12), collapse=""), month_data, sep='')
+updateFT(auth, login.table_id, 'Permit Raw', month_data)
+
+trend_data = paste(permit_trend, collapse=',')
+trend_data = paste(paste(rep(',', 12), collapse=""), trend_data, sep='')
+updateFT(auth,login.table_id,'Permit Trend', trend_data)
+#updateFT(auth,login.table_id,'Permit Season', permit_season)
 
 x <- 11:0
 trend.y <- permit_trend[length(permit_trend)-x]

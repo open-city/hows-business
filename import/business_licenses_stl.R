@@ -5,7 +5,8 @@ library(xts)
 print('loading issued business licenses ...')
 
 #import data
-license.url <- "http://data.cityofchicago.org/api/views/r5kz-chrr/rows.json"
+
+license.url <- "http://data.cityofchicago.org/api/views/xh8b-g55w/rows.csv"
 raw_licenses <- read.csv(license.url)
 
 derived_business_licenses <- c("Auto Gas Pump Certification",
@@ -71,9 +72,13 @@ season_output <- round(exp(decomposed_month$time.series[,1]),2)
 #output raw and trend data to fusion table. We'll clear the table and
 #rewrite
 auth = ft.connect(login.username, login.password)
-updateFT(auth, login.table_id, 'License Raw', month_count)
-updateFT(auth, login.table_id, 'License Trend', trend_output)
-updateFT(auth, login.table_id, 'License Season', season_output)
+
+month_data = paste(month_count_ts, collapse=',')
+updateFT(auth, login.table_id, 'License Raw', month_data)
+
+trend_data = paste(trend_output, collapse=',')
+updateFT(auth, login.table_id, 'License Trend', trend_data)
+#updateFT(auth, login.table_id, 'License Season', season_output)
 
 x <- 11:0
 trend.y <- trend_output[length(trend_output)-x]
