@@ -10,7 +10,7 @@ foreclosure.ts <- ts(colSums(foreclosures[,3:dim(foreclosures)[2]]),
 auth = ft.connect(login.username, login.password)
 quarterly_data = paste(foreclosure.ts, collapse=",")
 quarterly_data = paste(paste(rep(',', 4), collapse=""), quarterly_data, sep='')
-quarterly_data = paste(quarterly_data, "," sep='')
+quarterly_data = paste(quarterly_data, ",", sep='')
 updateFT(auth, login.table_id, 'Foreclosure Quarterly', quarterly_data)
 
 
