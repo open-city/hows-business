@@ -183,7 +183,7 @@ ft.exportdata <- function(auth, input_frame, table_name, create_table) {
     }	 
 }
 
-updateFT <- function(auth, table_id, name, data) {
+updateFT <- function(auth, table_id, name, data, column='Data') {
   sql <- paste('SELECT ROWID from', table_id)
   sql <- paste(sql, " WHERE Name = '", name, sep='')
   sql <- paste(sql, "'", sep='')
@@ -192,12 +192,12 @@ updateFT <- function(auth, table_id, name, data) {
   print(row.id)
   
   sql <- paste('UPDATE', table_id)
-  sql <- paste(sql, "SET Data = '")
+  sql <- paste(sql, "SET", column, " = '")
   sql <- paste(sql, paste(data, collapse=','), sep='')
   sql <- paste(sql, "' WHERE rowid='", sep='')
   sql <- paste(sql, row.id, sep = '')
   sql <- paste(sql, "'", sep = '')
   ft.executestatement(auth, sql)
-
-
+  
+  
 }

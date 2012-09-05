@@ -45,4 +45,11 @@ updateFT(auth, login.table_id, 'Permit Raw', month_permit_ts)
 updateFT(auth,login.table_id,'Permit Trend', permit_trend)
 updateFT(auth,login.table_id,'Permit Season', permit_season)
 
+x <- 11:0
+trend.y <- permit_trend[length(permit_trend)-x]
+x <- 0:11
+trend.lm <- lm(trend.y~x)
 
+m <- trend.lm$coef[2]
+
+updateFT(auth,login.table_id,'Permit Trend',m, 'CurrentTrend')

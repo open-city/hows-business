@@ -5,7 +5,7 @@ library(xts)
 print('loading issued business licenses ...')
 
 #import data
-license.url <- "http://data.cityofchicago.org/api/views/r5kz-chrr/rows.csv?search=ISSUE"
+license.url <- "http://data.cityofchicago.org/api/views/r5kz-chrr/rows.json"
 raw_licenses <- read.csv(license.url)
 
 derived_business_licenses <- c("Auto Gas Pump Certification",
@@ -35,8 +35,8 @@ derived_business_licenses <- c("Auto Gas Pump Certification",
 #filter out licenses that alway require a business license
 filtered_licenses <- raw_licenses[!raw_licenses$LICENSE.DESCRIPTION
                                   %in% derived_business_licenses,
-                                  c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
-names(filtered_licenses) <- c("LICENSE.DESCRIPTION", "date")
+                                  c("LICENSE.DESCRIPTION","APPLICATION.TYPE", "PAYMENT.DATE")]
+names(filtered_licenses) <- c("LICENSE.DESCRIPTION","Type", "date")
 filtered_licenses$date <- factor(filtered_licenses$date)
 
 # Count Licenses By Day
@@ -47,13 +47,14 @@ date_count <- date_count[date_count$date != "",]
 date_count$date <- as.Date(date_count$date, "%m/%d/%Y")
 
 # Select only whole months
-begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
+begin_curr_month <- as.Date(as.yearmon(Sys.Date())-1/12)
 
 date_count <- date_count[date_count$date >= "2005-01-01",]
 date_count <- date_count[date_count$date < begin_curr_month,]
 date_count <- xts(date_count$count, date_count$date)
 
 month_count <- apply.monthly(date_count, sum)
+month_count <- month_count[is.na(month_count)==F,]
 month_count_ts <- ts(as.numeric(month_count),
                      c(2005, 1),
                      frequency = 12)
@@ -64,7 +65,7 @@ decomposed_month <- stl(log(month_count_ts),
                         t.window=9,
                         robust=TRUE)
 
-trend_ouput <- round(exp(decomposed_month$time.series[,2]),2)
+trend_output <- round(exp(decomposed_month$time.series[,2]),2)
 season_output <- round(exp(decomposed_month$time.series[,1]),2)
 
 #output raw and trend data to fusion table. We'll clear the table and
@@ -74,5 +75,11 @@ updateFT(auth, login.table_id, 'License Raw', month_count)
 updateFT(auth, login.table_id, 'License Trend', trend_output)
 updateFT(auth, login.table_id, 'License Season', season_output)
 
+x <- 11:0
+trend.y <- trend_output[length(trend_output)-x]
+x <- 0:11
+trend.lm <- lm(trend.y~x)
 
+m <- trend.lm$coef[2]
 
+updateFT(auth,login.table_id,'License Trend',m, 'CurrentTrend')

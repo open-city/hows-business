@@ -1,4 +1,6 @@
 library(tframe)
+source('fusion-tables.R')
+source('login.R')
 unemployment.df <- read.table('http://research.stlouisfed.org/fred2/data/ILCOOK1URN.txt',
                               skip=11,
                               header = TRUE)
@@ -7,7 +9,7 @@ names(unemployment.df) <- c("date", "value")
 unemployment.df$date <- as.Date(unemployment.df$date, "%Y-%m-%d")
 unemployment.df$month <- months(unemployment.df$date)
 
-upl_ts <-ts(unemployment$value,
+upl_ts <-ts(unemployment.df$value,
                      start=c(1990, 1),
                      frequency=12)
 
@@ -21,7 +23,18 @@ upl_trend <- round(exp(upl_stl$time.series[,'trend']),2)
 upl_trend <- tfwindow(upl_trend,start=c(2005,1))
 upl_season <- round(exp(upl_stl$time.series[,'seasonal']),2)
 upl_season <- tfwindow(upl_season,start=c(2005,1))
+upl_ts <- tfwindow(upl_ts,start=c(2005,1))
 
+auth = ft.connect(login.username, login.password)
 updateFT(auth,login.table_id,'Cook County Unemployment',upl_ts)
 updateFT(auth,login.table_id,'Cook County Unemployment Trend', upl_trend)
 updateFT(auth,login.table_id,'Cook County Unemployment Season', upl_season)
+
+x <- 11:0
+trend.y <- upl_trend[length(upl_trend)-x]
+x <- 0:11
+trend.lm <- lm(trend.y~x)
+
+m <- trend.lm$coef[2]
+
+updateFT(auth,login.table_id,'Cook County Unemployment Trend',m, 'CurrentTrend')
