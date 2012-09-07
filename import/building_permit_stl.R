@@ -13,15 +13,16 @@ permit <- permit[order(permit$date),]
 
 #Remove outlier by averaging the other entries within one week.
 
-permit$count[575] <- mean(permit[permit$date < "2007-07-14"
-                                 & permit$date > "2007-06-30"
-                                 & permit$date != "2007-07-07",
-                                 "count"])
+permit$count[575] <- sum(permit[permit$date <= "2007-07-14"
+                                & permit$date >= "2007-06-30"
+                                & permit$date != "2007-07-07",
+                                "count"])/10
+
 
 # Select only whole months
 begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 
-permit <- permit[permit$date >= "2006-01-01",
+permit <- permit[permit$date >= "2006-1-01"
                  & permit$date < begin_curr_month,]
 
 permit_xts <- xts(permit$count, permit$date)
