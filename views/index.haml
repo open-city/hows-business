@@ -7,7 +7,7 @@
     $(function () {
       FusionTables.getChart("Grouping = 'Business Licenses' AND Type IN ('Trend', 'Raw')");
       FusionTables.getChart("Grouping = 'Building Permits' AND Type IN ('Trend', 'Raw')");
-      FusionTables.getChart("Grouping = 'Unemployment' AND Type IN ('Trend', 'Raw')");
+      FusionTables.getChart("Grouping = 'Unemployment' AND 'Source' = 'IDES' AND Type IN ('Trend', 'Raw')");
       FusionTables.getChart("Name = 'Foreclosure Quarterly'");
     });
 
@@ -15,7 +15,6 @@
   .span6.well
     %h3 
       New Business Licenses
-      %small Chicago
     %p
       Source: 
       %a{:href => "https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr"} City of Chicago
@@ -29,11 +28,9 @@
   .span6.well
     %h3 
       Unemployment
-      %small
-        Cook County
     %p
       Source: 
-      %a{:href => "http://research.stlouisfed.org/fred2/series/ILCOOK1URN"} Federal Reserve Economic Data 
+      %a{:href => "http://www.ides.illinois.gov/default.aspx"} Illinois Department of Employment Security
       |
       Trend: 
       %span.label.label-success
@@ -44,8 +41,6 @@
   .span6.well
     %h3 
       Building Permits
-      %small
-        Chicago
     %p 
       Source:
       %a{:href => "https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu"} City of Chicago
@@ -57,8 +52,6 @@
   .span6.well
     %h3 
       Housing Foreclosures
-      %small
-        Chicago
         
     %p 
       Source:
