@@ -27,7 +27,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
         }, {
           color: colorHash["trend"],
           data: dataArray[1],
-          name: "Average trend",
+          name: "Trend",
           lineWidth: 3
         }
       ]
