@@ -3,18 +3,21 @@ source('fusion-tables.R')
 source('login.R')
 
 
+illinois.laus <- read.table("ftp://ftp.bls.gov/pub/time.series/la/la.data.20.Illinois", fill=TRUE, header=TRUE)
 
-unemployment.df <- read.csv("data/chicago_unemployment.csv")
+unemployment.df <- illinois.laus[illinois.laus$series_id == "LAUPS17010003"
+                                 & illinois.laus$period != "M13",]
 
-unemployment.df$date <- as.Date(paste(unemployment.df$Year,
-                                      unemployment.df$Month,
+unemployment.df$date <- as.Date(paste(unemployment.df$year,
+                                      as.numeric(substr(unemployment.df$period,
+                                                        2,3)),
                                       1),
                                 "%Y %m %d")
 
 unemployment.df$month <- months(unemployment.df$date)
 
-upl_ts <-ts(unemployment.df$Unemployment.Rate,
-                     start=c(2003, 1),
+upl_ts <-ts(unemployment.df$value,
+                     start=c(1990, 1),
                      frequency=12)
 
 #Take the stl decomposition and then linear and cubic models

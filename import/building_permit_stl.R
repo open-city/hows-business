@@ -39,6 +39,7 @@ permit_stl <- stl(log(month_permit_ts),
 plot(permit_stl)
 
 permit_trend <- round(exp(permit_stl$time.series[,'trend']), 2)
+
 permit_season <- round(exp(permit_stl$time.series[,'seasonal']), 2)
 
 auth = ft.connect(login.username, login.password)
@@ -50,7 +51,7 @@ updateFT(auth, login.table_id, 'Permit Raw', month_data)
 trend_data = paste(permit_trend, collapse=',')
 trend_data = paste(paste(rep(',', 12), collapse=""), trend_data, sep='')
 updateFT(auth,login.table_id,'Permit Trend', trend_data)
-#updateFT(auth,login.table_id,'Permit Season', permit_season)
+
 
 x <- 11:0
 trend.y <- permit_trend[length(permit_trend)-x]

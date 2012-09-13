@@ -69,8 +69,6 @@ decomposed_month <- stl(log(month_count_ts),
 trend_output <- round(exp(decomposed_month$time.series[,2]),2)
 season_output <- round(exp(decomposed_month$time.series[,1]),2)
 
-#output raw and trend data to fusion table. We'll clear the table and
-#rewrite
 auth = ft.connect(login.username, login.password)
 
 month_data = paste(month_count_ts, collapse=',')
@@ -78,7 +76,7 @@ updateFT(auth, login.table_id, 'License Raw', month_data)
 
 trend_data = paste(trend_output, collapse=',')
 updateFT(auth, login.table_id, 'License Trend', trend_data)
-#updateFT(auth, login.table_id, 'License Season', season_output)
+
 
 x <- 11:0
 trend.y <- trend_output[length(trend_output)-x]
