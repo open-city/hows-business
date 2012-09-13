@@ -1,16 +1,20 @@
 library(tframe)
 source('fusion-tables.R')
 source('login.R')
-unemployment.df <- read.table('http://research.stlouisfed.org/fred2/data/ILCOOK1URN.txt',
-                              skip=11,
-                              header = TRUE)
 
-names(unemployment.df) <- c("date", "value")
-unemployment.df$date <- as.Date(unemployment.df$date, "%Y-%m-%d")
+
+
+unemployment.df <- read.csv("data/chicago_unemployment.csv")
+
+unemployment.df$date <- as.Date(paste(unemployment.df$Year,
+                                      unemployment.df$Month,
+                                      1),
+                                "%Y %m %d")
+
 unemployment.df$month <- months(unemployment.df$date)
 
-upl_ts <-ts(unemployment.df$value,
-                     start=c(1990, 1),
+upl_ts <-ts(unemployment.df$Unemployment.Rate,
+                     start=c(2003, 1),
                      frequency=12)
 
 #Take the stl decomposition and then linear and cubic models
@@ -32,15 +36,15 @@ trend.lm <- lm(trend.y~x)
 
 m <- trend.lm$coef[2]
 
-updateFT(auth,login.table_id,'Cook County Unemployment Trend',m, 'CurrentTrend')
+auth = ft.connect(login.username, login.password)
 
 month_data = paste(upl_ts, collapse=',')
 month_data = paste(month_data, ',', sep='')
-updateFT(auth,login.table_id,'Cook County Unemployment',month_data)
+updateFT(auth,login.table_id,'Chicago Unemployment Monthly',month_data)
 
 trend_data = paste(upl_trend, collapse=',')
 trend_data = paste(trend_data, ',,', sep='')
-updateFT(auth,login.table_id,'Cook County Unemployment Trend', trend_data)
+updateFT(auth,login.table_id,'Chicago Unemployment Trend', trend_data)
 
 
 
