@@ -13,47 +13,56 @@
 
 .row-fluid
   .span6.well
-    %h3 
-      New Business Licenses
+    %h3
+      %a{:href => "/about#new-businesses"} 
+        New Business Licenses
+        %small
+          More info
     %p
       Source: 
       %a{:href => "https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr"} City of Chicago
       |
       Trend: 
       %span.label.label-warning
-        Slowly declining
-        %i.icon-arrow-down.icon-white
+        Been better
         
     #chart_Business-Licenses.chart
   .span6.well
     %h3 
-      Unemployment
+      %a{:href => "/about#unemployment"}
+        Unemployment
+        %small
+          More info
     %p
       Source: 
       %a{:href => "http://www.bls.gov/lau/"} Bureau of Labor Statistics
       |
       Trend: 
       %span.label.label-success
-        Declining
-        %i.icon-arrow-down.icon-white
+        Turning around
     #chart_Unemployment.chart
 
 .row-fluid
   .span6.well
     %h3 
-      Building Permits
+      %a{:href => "/about#building-permits"}
+        Building Permits (New Construction)
+        %small
+          More info
     %p 
       Source:
       %a{:href => "https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu"} City of Chicago
       |
       Trend: 
       %span.label.label-warning
-        Slowly declining
-        %i.icon-arrow-down.icon-white
+        Been better
     #chart_Building-Permits.chart
   .span6.well
     %h3 
-      Housing Foreclosures
+      %a{:href => "/about#foreclosures"}
+        Housing Foreclosures
+        %small
+          More info
         
     %p 
       Source:
@@ -61,8 +70,7 @@
       |
       Trend: 
       %span.label.label-important
-        Rising
-        %i.icon-arrow-up.icon-white
+        Not looking good
     #chart_Foreclosures.chart
 
 .row-fluid
