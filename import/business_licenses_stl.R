@@ -11,7 +11,6 @@ raw_licenses <- read.csv(license.url)
 
 derived_business_licenses <- c("Auto Gas Pump Certification",
                                "Special Event Food",
-                               "Home Occupation",
                                "Tobacco Retail Over Counter",
                                "Consumption on Premises - Incidental Activity",
                                "Hazardous Materials",
