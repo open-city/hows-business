@@ -11,7 +11,7 @@
             
     / Styles
     = include_stylesheet "bootstrap.journal.min"
-    = include_stylesheet "bootstrap-responsive"
+    = include_stylesheet "bootstrap-responsive.min"
     = include_stylesheet :custom
     = content :stylesheets
     
@@ -38,7 +38,11 @@
     %footer.footer
       .container-fluid
         %hr
-        A project by Daniel Morton, Derek Eder, Forest Gregg and Matt Gee.
+        %p
+          A project by Daniel Morton, 
+          = succeed ',' do
+            %a{:href => 'http://derekeder.com'} Derek Eder
+          Forest Gregg and Matt Gee.
       
     = include_javascript :jquery
     = include_javascript :bootstrap
