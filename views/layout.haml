@@ -10,7 +10,7 @@
     %meta{:content => "", :name => "author"}
             
     / Styles
-    = include_stylesheet :bootstrap
+    = include_stylesheet "bootstrap.journal.min"
     = include_stylesheet "bootstrap-responsive"
     = include_stylesheet :custom
     = content :stylesheets
@@ -28,18 +28,17 @@
           %li{:class => current_menu_class("about")}
             %a{:href => "/about"} About
         %h1
-          How's Business?
-          %small
-            A look at the Chicago economy, based on open data
+          %a{:href => "/"}
+            How's Business?
+            %small
+              A look at the Chicago economy, based on open data
 
       = yield
 
     %footer.footer
       .container-fluid
         %hr
-        An 
-        %a{:href => "http://opencityapps.org"} Open City 
-        project
+        A project by Daniel Morton, Derek Eder, Forest Gregg and Matt Gee.
       
     = include_javascript :jquery
     = include_javascript :bootstrap

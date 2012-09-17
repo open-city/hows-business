@@ -3,3 +3,16 @@
   height: 200px; 
   margin: 0 auto;
 }
+
+body { font-size:16px; }
+
+.well {padding-top: 0; }
+
+.label {font-family: "Verdana"; font-size: 14px; font-weight: normal;}
+
+a {color: #111;}
+
+[class^="icon-"],[class*=" icon-"]{ vertical-align: text-top;}
+
+.faq li { padding-top: 8px;}
+.faq li ul li {padding-top: 3px;}

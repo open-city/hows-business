@@ -1,8 +1,282 @@
-.row-fluid
-  .span8
-    %h2
-      About
+- content_for :javascripts do
+  = include_javascript :highcharts
+  = include_javascript :chart_helper
+  = include_javascript :fusion_tables
+  
+  :javascript
+    $(function () {
+      FusionTables.getChart("Grouping = 'Business Licenses' AND Type IN ('Trend', 'Raw')");
+      FusionTables.getChart("Grouping = 'Building Permits' AND Type IN ('Trend', 'Raw')");
+      FusionTables.getChart("Grouping = 'Unemployment' AND 'Source' = 'IDES' AND Type IN ('Trend', 'Raw')");
+      FusionTables.getChart("Name = 'Foreclosure Quarterly'");
+    });
 
-    %p
-      Here goes the about page.
-      
+.row-fluid
+  .span3
+    .well
+      %h3 Sections
+      %ol.faq
+        %li
+          %a{:href => "#hows-the-economy" } How's the economy?
+        %li
+          %a{:href => "#what-were-measuring" } What we’re measuring
+          %ul
+            %li 
+              %a{:href => "#new-businesses" } New Businesses
+            %li 
+              %a{:href => "#building-permits" } Building Permits
+            %li 
+              %a{:href => "#foreclosures" } Foreclosures
+            %li 
+              %a{:href => "#unemployment" } Unemployment
+        %li
+          %a{:href => "#from-raw-numbers-to-trends" } From Raw Numbers to Trends
+        %li
+          %a{:href => "#more-resources" } More reasources
+        %li
+          %a{:href => "#team" } Team
+        %li
+          %a{:href => "#code" } Code
+        %li
+          %a{:href => "#contact-us" } Contact us
+        %li
+          %a{:href => "#footnotes" } Footnotes
+  .span8
+    %h2 About
+
+    %p How’s Business provides a view of Chicago’s local economy. It uses open data to show how several economic indicators have been trending since 2005. 
+
+    %h2#hows-the-economy How’s the economy? 
+
+    %p This question doesn’t have a simple, single answer. That’s because the economy is not a simple, single thing. For the individual Chicagoan, the economy is having a job, starting a business, deciding to save or invest, buying a new home, or missing a mortgage payment.  For a business owner, the economy is new orders, the cost of capital, building a new factory, finding skilled workers, or having to fire longtime employees. 
+
+    %p So if you want to know how the economy as a whole is doing, you have to find numbers that not only capture the economy’s many facets but also its many players.
+
+    %p The numbers we look at
+
+    %ul
+      %li capture a key part of the economy
+      %li are local
+      %li are updated often
+      %li have been around long enough to reveal trends
+      %li are publicly accessible
+
+    %p Let’s take them one by one.
+    
+    %h2#what-were-measuring What we’re measuring
+
+    %h3#new-businesses New Businesses
+
+    %p 
+      New businesses 
+      = succeed "." do
+        %a{:href => 'http://www.kauffman.org/research-and-policy/where-will-the-jobs-come-from.aspx'} create most new jobs
+      They invent new products. And they pioneer new ways of doing business. 
+
+    %p Total businesses depend upon the balance between new businesses starting and old businesses failing. In general, higher rates of business creation increase total economic activity.
+
+    #chart_Business-Licenses.chart
+
+    %h4 The Data
+
+    %p To measure new businesses, we use counts of new business licenses filed with the City of Chicago. 
+
+    %p 
+      The City of Chicago requires new companies to get business licenses
+      = succeed ',' do
+        %sup
+          %a{:href => '#f1'} [#1]
+      and reports the number and type of each business license on the City’s 
+      = succeed '.' do
+        %a{:href => 'https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses-Current-Active/uupf-x98q'} data portal 
+      Each month, we add up all the licenses the City has issued to new businesses, and that is our measure.
+
+    %p 
+      Some new licenses are for existing businesses that want to do something that requires a special license. If a restaurant wants a new patio, for example, it needs an extra license. We’ve removed these kinds of licenses from our analysis
+      = succeed '.' do
+        %sup
+          %a{:href => '#f2'} [#2]
+
+
+    %h3#building-permits Building Permits (New Construction)
+
+    %p 
+      Construction makes up 4% of Chicago’s economy
+      = succeed '.' do
+        %sup
+          %a{:href => '#f3'} [#3]
+      Economists often treat new construction as a leading indicator. That means if new construction rises - or falls - you can expect the rest of the economy to follow. 
+    
+    #chart_Building-Permits.chart
+
+    %h4 The Data
+
+    %p To measure new construction, we use building permits. 
+
+    %p 
+      Real-estate developers rehabbing a building, or building a new one, must get a building permit from the City of Chicago
+      = succeed '.' do
+        %sup
+          %a{:href => '#f4'} [#4]
+
+    %p 
+      Each month, we add up all the 
+      %a{:href => 'https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu'} building permits
+      the City has issued, and that is our measure
+      = succeed '.' do
+        %sup
+          %a{:href => '#f5'} [#5]
+
+    %h3#foreclosures Foreclosures
+
+    %p Foreclosures happen when a household can’t pay its bills, often because its monthly mortgage payments have gone up, or someone lost their job. The bank that issued the mortgage then takes over the home - that’s the foreclosure.
+
+    %p So when the economy crashes, and household budgets tighten, foreclosure rates climb.
+
+    %p But high foreclosure rates don’t just reflect a struggling economy. They also drag on the economy itself, by depressing the housing market.
+
+    %p Here’s how it happens. Falling housing prices often spur foreclosures. Foreclosured homes, in turn, further lowering nearby housing prices. And that can lead to even more foreclosures.
+
+    %p As the past few has shown, this negative feedback loop can depress housing prices for years, slowing the recovery of the housing market.
+
+    #chart_Foreclosures.chart
+
+    %h4 The Data
+    
+    %p 
+      Our data on foreclosure filings comes from the 
+      = succeed ',' do
+        %a{:href => 'http://www.woodstockinst.org/'} Woodstock Institute
+      a local think tank that works on housing issues. They buy it from a company called 
+      = succeed ',' do
+        %a{:href => 'http://www.public-record.com/content/databases/foreclosures/'} Record Information Services
+      who gets it from the Clerk of the Circuit Court of Cook County. 
+
+    %p To avoid double counting, Woodstock removes any foreclosure filings made within 90 days of an initial filing. Then, they count up all the foreclosure filings made in Chicago for each quarter of the year.
+
+    %h3#unemployment Unemployment
+
+    %p For most of us, work is the economy.  
+
+    %p If we have work, or can get it, the economy seems okay. When we start worrying about our job, or can’t find one, that what a bad economy means to us.
+
+    %p Unemployment is a measure of how many people are out of a job and looking for work.  When unemployment is high, people suffer - and so does the economy.
+
+    #chart_Unemployment.chart
+
+    %h4 The Data
+    
+    %p Technically, the unemployment rate is the number of people who are unemployed, divided by the number of both unemployed and employed people. 
+
+    %p It’s pretty simple to decide who counts as employed. But just because you don’t have a job doesn’t mean you count as unemployed.
+
+    %p 
+      That’s because the Bureau of Labor Statistics - the federal agency that measures unemployment - only counts you as 
+      %a{:href => 'http://www.bls.gov/cps/cps_htgm.htm#unemployed'} officially unemployed 
+      if you don’t have a job, have looked for work in the last four weeks, and are ready to start work if you get an offer. People who are not actively looking for work aren’t counted as unemployed. 
+
+    %p 
+      Our monthly unemployment rate data comes from the Bureau of Labor Statistics 
+      = succeed '.' do
+        %a{:href => 'http://www.bls.gov/lau/'} Local Area Unemployment Statistics
+      The way they calculate this rate is 
+      = succeed '.' do
+        %a{:href => 'http://www.bls.gov/lau/laumthd.htm'} complicated
+      We get the 
+      %a{:href => 'ftp://ftp.bls.gov/pub/time.series/la/la.data.20.Illinois'} data from the Bureau of Labor Statistics’s FTP site 
+      (the series ID for Chicago unemployment is LAUPS17010003).
+    
+    %h2#from-raw-numbers-to-trends From Raw Numbers to Trends
+
+    %p Some parts of the economy rise and fall with the seasons. Construction slows down in the winter, because... its winter in Chicago.
+
+    %p These seasonal fluctuations make it difficult to see how businesses, unemployment, and the rest are actually doing. 
+
+    %p 
+      So we try to tease out the real trends from the seasonal ups and downs. We do this with 
+      = succeed ',' do
+        %a{:href => 'http://stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html'} R
+      a statistical programming language, and the 
+      = succeed '.' do
+        %a{:href => 'http://stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html'} stl package
+
+    %p If we chose a simpler way of finding the trend, like a moving average, the overall pattern would be the same. But our approach improves the accuracy of our trend line, especially for the most recent months.
+
+    %h2#more-resources More Resources
+
+    %p We focus on how Chicago’s economy is changing, but there are other reports out there that compare our economy with those of other cities. These are useful, so let’s link to them.
+
+    %dl
+      %dt 
+        %a{:href => 'http://www.chapinhall.org/research/report/cwicstats-dashboard-report'} CWICstats Dashboard Report 
+
+      %dd This quarterly dashboard report provides a snapshot of key workforce and economic indicators. It was built for the Chicago Workforce Investment Council (CWIC). The front page highlights many of these indicators and their most recent changes. The inside of the report contains graphs of additional indicators. 
+    
+      %dt 
+        %a{:href => 'http://www.worldbusinesschicago.com/data'} World Business Chicago
+
+      %dd Repository of business climate, economy, key industries, quality of life and many other economic indexes for the Chicago area.
+    
+      %dt 
+        %a{:href => 'http://research.stlouisfed.org/fred2/'} Federal Reserve Economic Data
+    
+      %dd A database of more than 55,000 economic time series maintained by the Federal Reserve Bank of St. Louis.
+
+    %h2#team Team
+
+    %ul
+      %li Daniel Morton - statistical analysis
+      %li 
+        %a{:href => 'http://derekeder.com'} Derek Eder
+        \- front end development 
+      %li Matt Gee - statistical analysis and about page
+      %li Forest Gregg - statistical analysis and about page
+
+    %h2#the-code The Code
+
+    %p 
+      his site was built entirely open source and uses open data. The code is on 
+      %a{:href => 'https://github.com/open-city/hows-business'} Github
+      and the data is available in 
+      = succeed '.' do
+        %a{:href => 'https://www.google.com/fusiontables/DataSource?docid=1_RnACjjyI4qmAaOQyRFB2W5iItGnvbqNaymnEW4'} Fusion Tables
+
+    %p Technologies used:
+
+    %ul
+      %li
+        %a{:href => "http://www.r-project.org/"} R
+      %li
+        %a{:href => "http://www.highcharts.com/"} Highcharts
+      %li
+        %a{:href => "http://www.google.com/fusiontables/Home/"} Google Fusion Tables
+      %li
+        %a{:href => "http://www.sinatrarb.com"} Sinatra
+      %li
+        %a{:href => "http://www.heroku.com"} Heroku
+      %li
+        %a{:href => "http://twitter.github.com/bootstrap"} Twitter Bootstrap
+
+    %h2#contact-us Contact Us
+
+    %p 
+      Think we should be tracking other measures of Chicago’s economic climate? Interested in cruching the numbers? Contact us at 
+      %a{:href => 'mailto:info@howsbusinesschicago.org'} info@howsbusinesschicago.org
+
+    %hr
+    %h2#footnotes Footnotes
+
+    %ol
+      %li#f1 
+        %a{:href => 'http://www.cityofchicago.org/city/en/depts/bacp/supp_info/business_licenseexemptions.html'}
+          Businesses licensed by the state are not required to get a city license 
+      %li#f2
+        These secondary, excluded licenses include Auto Gas Pump Certification, Special Event Food, Tobacco Retail Over Counter, Consumption on Premises - Incidental Activity, Hazardous Materials, Package Goods, Raffles, Outdoor Patio, Repossessor Class B Employee, Explosives, Certificate of Fitness, Caterer's Liquor License, Expediter - Class B Employee, Accessory Garage, Expediter - Class B, Retail Food Est.-Supplemental License for Dog-Friendly Areas, Food - Shared Kitchen Long-Term User, Class B - Indoor Special Event, Food - Shared Kitchen Short-Term User, Repossessor Class B, (Other), Caterer's Registration (Liquor), Food - Shared Kitchen - Supplemental
+      %li#f3 
+        %a{:href => 'http://www.bea.gov/iTable/iTable.cfm?reqid=70&step=10&isuri=1&7093=PercentofMetroPortion&7003=200&7007=-1&7035=-1&7036=-1&7001=2200&7002=2&7090=70&7004=NAICS&7005=11&7006=16980'}
+          BEA: GDP by Metro Area (millions of current $):  Percent of U.S. metro portion:  Construction 
+      %li#f4 
+        %a{:href => 'http://www.cityofchicago.org/city/en/depts/bldgs/supp_info/when_is_a_permitnotneeded.html'}
+          Projects which do <em>not</em> require a permit. 
+      %li#f5
+        We also handle one day that is very different from the rest. In the City’s data, there are 1,994 licenses that are reported as issued on July 7, 2007. Typically, the Department of Buildings issues one to two hundred licenses on any day. We throw out the count for this day, and replace it with the average daily permits from the two week period around it.
