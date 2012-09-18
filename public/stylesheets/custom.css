@@ -1,10 +1,13 @@
 .chart {
-  min-width: 200px; 
+  min-width: 430px; 
   height: 200px; 
   margin: 0 auto;
 }
 
-body { font-size:16px; }
+body { 
+  font-size:16px; 
+  min-width: 480px;
+}
 
 .well {padding-top: 0; }
 
