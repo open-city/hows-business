@@ -59,9 +59,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
           type: "datetime"
       },
       yAxis: {
-          title: {
-              text: yaxisLabel
-          }
+          title: null
       },
       plotOptions: {
         series: {
