@@ -2,6 +2,7 @@ setwd('~/public/hows-business/import/')
 source('fusion-tables.R')
 source('login.R')
 library(xts)
+
 print('loading issued business licenses ...')
 
 #import data
@@ -35,8 +36,8 @@ derived_business_licenses <- c("Auto Gas Pump Certification",
 #filter out licenses that alway require a business license
 filtered_licenses <- raw_licenses[!raw_licenses$LICENSE.DESCRIPTION
                                   %in% derived_business_licenses,
-                                  c("LICENSE.DESCRIPTION","APPLICATION.TYPE", "PAYMENT.DATE")]
-names(filtered_licenses) <- c("LICENSE.DESCRIPTION","Type", "date")
+                                  c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
+names(filtered_licenses) <- c("LICENSE.DESCRIPTION", "date")
 filtered_licenses$date <- factor(filtered_licenses$date)
 
 # Count Licenses By Day
@@ -54,16 +55,15 @@ date_count <- date_count[date_count$date < begin_curr_month,]
 date_count <- xts(date_count$count, date_count$date)
 
 month_count <- apply.monthly(date_count, sum)
-month_count <- month_count[is.na(month_count)==F,]
 month_count_ts <- ts(as.numeric(month_count),
                      c(2005, 1),
                      frequency = 12)
 
 decomposed_month <- stl(log(month_count_ts),
-                        s.window=7,
+                        s.window=9,
                         s.degree=1,
-                        t.window=9,
                         robust=TRUE)
+plot(decomposed_month)
 
 trend_output <- round(exp(decomposed_month$time.series[,2]),2)
 season_output <- round(exp(decomposed_month$time.series[,1]),2)
@@ -71,10 +71,10 @@ season_output <- round(exp(decomposed_month$time.series[,1]),2)
 auth = ft.connect(login.username, login.password)
 
 month_data = paste(month_count_ts, collapse=',')
-updateFT(auth, login.table_id, 'License Raw', month_data)
+#updateFT(auth, login.table_id, 'License Raw', month_data)
 
 trend_data = paste(trend_output, collapse=',')
-updateFT(auth, login.table_id, 'License Trend', trend_data)
+#updateFT(auth, login.table_id, 'License Trend', trend_data)
 
 
 x <- 11:0
@@ -84,4 +84,6 @@ trend.lm <- lm(trend.y~x)
 
 m <- trend.lm$coef[2]
 
-updateFT(auth,login.table_id,'License Trend',m, 'CurrentTrend')
+#updateFT(auth,login.table_id,'License Trend',m, 'CurrentTrend')
+
+
