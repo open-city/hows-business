@@ -47,7 +47,7 @@ date_count <- date_count[date_count$date != "",]
 date_count$date <- as.Date(date_count$date, "%m/%d/%Y")
 
 # Select only whole months
-begin_curr_month <- as.Date(as.yearmon(Sys.Date())-1/12)
+begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 
 date_count <- date_count[date_count$date >= "2005-01-01",]
 date_count <- date_count[date_count$date < begin_curr_month,]
