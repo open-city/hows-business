@@ -32,3 +32,9 @@ Report it here: https://github.com/open-city/hows-business/issues
 * Fork the project.
 * Make your feature addition or bug fix.
 * Commit and send me a pull request. Bonus points for topic branches.
+
+== Copyright
+
+Copyright (c) 2012 Daniel Mortion, Derek Eder, Forest Gregg and Matt Gee. Released under the MIT License.
+
+See LICENSE for details https://github.com/open-city/dedupe/wiki/License
