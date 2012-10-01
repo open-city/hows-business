@@ -71,10 +71,10 @@ season_output <- round(exp(decomposed_month$time.series[,1]),2)
 auth = ft.connect(login.username, login.password)
 
 month_data = paste(month_count_ts, collapse=',')
-#updateFT(auth, login.table_id, 'License Raw', month_data)
+updateFT(auth, login.table_id, 'License Raw', month_data)
 
 trend_data = paste(trend_output, collapse=',')
-#updateFT(auth, login.table_id, 'License Trend', trend_data)
+updateFT(auth, login.table_id, 'License Trend', trend_data)
 
 
 x <- 11:0
@@ -84,6 +84,6 @@ trend.lm <- lm(trend.y~x)
 
 m <- trend.lm$coef[2]
 
-#updateFT(auth,login.table_id,'License Trend',m, 'CurrentTrend')
+updateFT(auth,login.table_id,'License Trend',m, 'CurrentTrend')
 
 
