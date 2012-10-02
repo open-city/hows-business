@@ -35,6 +35,6 @@ Report it here: https://github.com/open-city/hows-business/issues
 
 == Copyright
 
-Copyright (c) 2012 Daniel Mortion, Derek Eder, Forest Gregg and Matt Gee. Released under the MIT License.
+Copyright (c) 2012 Daniel Morton, Derek Eder, Forest Gregg and Matt Gee. Released under the MIT License.
 
 See LICENSE for details https://github.com/open-city/hows-business/wiki/License
