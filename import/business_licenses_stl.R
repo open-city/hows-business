@@ -1,7 +1,7 @@
 setwd('~/public/hows-business/import/')
 source('fusion-tables.R')
 source('login.R')
-library(xts)
+suppressMessages(library(xts))
 
 print('loading issued business licenses ...')
 
@@ -49,6 +49,7 @@ date_count$date <- as.Date(date_count$date, "%m/%d/%Y")
 
 # Select only whole months
 begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
+#begin_last_month <- as.Date(as.yearmon(as.Date(as.yearmon(Sys.Date())) - 1))
 
 date_count <- date_count[date_count$date >= "2005-01-01",]
 date_count <- date_count[date_count$date < begin_curr_month,]
@@ -71,9 +72,13 @@ season_output <- round(exp(decomposed_month$time.series[,1]),2)
 auth = ft.connect(login.username, login.password)
 
 month_data = paste(month_count_ts, collapse=',')
+#month_data = paste(month_data, ',', sep='')
+
 updateFT(auth, login.table_id, 'License Raw', month_data)
 
 trend_data = paste(trend_output, collapse=',')
+#trend_data = paste(trend_data, ',,', sep='')
+
 updateFT(auth, login.table_id, 'License Trend', trend_data)
 
 
