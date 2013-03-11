@@ -48,11 +48,11 @@ date_count <- date_count[date_count$date != "",]
 date_count$date <- as.Date(date_count$date, "%m/%d/%Y")
 
 # Select only whole months
-#begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
+begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 #begin_last_month <- as.Date(as.yearmon(as.Date(as.yearmon(Sys.Date())) - 1))
 
 date_count <- date_count[date_count$date >= "2006-01-01",]
-date_count <- date_count[date_count$date < "2013-01-01",]
+date_count <- date_count[date_count$date < begin_curr_month,]
 date_count <- xts(date_count$count, date_count$date)
 
 month_count <- apply.monthly(date_count, sum)
@@ -73,7 +73,7 @@ auth = ft.connect(login.username, login.password)
 
 month_data = paste(month_count_ts, collapse=',')
 month_data = paste(paste(rep(',', 12), collapse=""), month_data, sep='')
-month_data = paste(month_data, ',,,', sep='')
+
 
 
 month_data = paste(month_data, ',', sep='')
@@ -82,7 +82,7 @@ updateFT(auth, login.table_id, 'License Raw', month_data)
 
 trend_data = paste(trend_output, collapse=',')
 trend_data = paste(paste(rep(',', 12), collapse=""), trend_data, sep='')
-trend_data = paste(trend_data, ',,,', sep='')
+
 
 
 updateFT(auth, login.table_id, 'License Trend', trend_data)
