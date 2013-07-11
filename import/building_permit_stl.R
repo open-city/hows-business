@@ -46,11 +46,11 @@ auth = ft.connect(login.username, login.password)
 
 month_data = paste(month_permit_ts, collapse=',')
 month_data = paste(paste(rep(',', 12), collapse=""), month_data, sep='')
-updateFT(auth, login.table_id, 'Permit Raw', month_data)
+updateFT(auth, login.api_key, login.table_id, 'Permit Raw', month_data)
 
 trend_data = paste(permit_trend, collapse=',')
 trend_data = paste(paste(rep(',', 12), collapse=""), trend_data, sep='')
-updateFT(auth,login.table_id,'Permit Trend', trend_data)
+updateFT(auth, login.api_key, login.table_id,'Permit Trend', trend_data)
 
 
 x <- 11:0
@@ -60,4 +60,4 @@ trend.lm <- lm(trend.y~x)
 
 m <- trend.lm$coef[2]
 
-updateFT(auth,login.table_id,'Permit Trend',m, 'CurrentTrend')
+updateFT(auth, login.api_key, login.table_id, 'Permit Trend', m, 'CurrentTrend')
