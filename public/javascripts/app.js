@@ -1,7 +1,7 @@
 $(function () {
-  // showChart(licenses);
-  // showChart(unemployment);
-  // showChart(permits);
+  showChart(licenses);
+  showChart(unemployment);
+  showChart(permits);
   showChart(foreclosures);
 });
 
