@@ -1,6 +1,3 @@
-setwd('~/public/hows-business/import/')
-source('fusion-tables.R')
-source('login.R')
 suppressMessages(library(xts))
 
 print('loading issued business licenses ...')
@@ -53,7 +50,7 @@ begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 
 date_count <- date_count[date_count$date >= "2006-01-01",]
 date_count <- date_count[date_count$date < begin_curr_month,]
-date_count <- xts(date_count$count, date_count$date)
+date_count <- xts::xts(date_count$count, date_count$date)
 
 month_count <- apply.monthly(date_count, sum)
 month_count_ts <- ts(as.numeric(month_count),
@@ -64,37 +61,45 @@ decomposed_month <- stl(log(month_count_ts),
                         s.window=9,
                         s.degree=1,
                         robust=TRUE)
-plot(decomposed_month)
+#plot(decomposed_month)
 
 trend_output <- round(exp(decomposed_month$time.series[,2]),2)
 season_output <- round(exp(decomposed_month$time.series[,1]),2)
 
-auth = ft.connect(login.username, login.password)
-
 month_data = paste(month_count_ts, collapse=',')
-month_data = paste(paste(rep(',', 12), collapse=""), month_data, sep='')
+month_data = paste(paste(rep('null', 12), collapse=","), ',', month_data, sep='')
 
+month_data = paste(month_data, ',null', sep='')
 
+license_raw <- paste(
+ '{"grouping" : "Business Licenses",
+ "type" : "Raw",
+ "Title" : "Monthly Count of New Business Licenses",
+ "Source" : "City of Chicago",
+ "Label" : "Issued business licenses",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [',
+  month_data,
+  ']}')
 
-month_data = paste(month_data, ',', sep='')
-
-updateFT(auth, login.table_id, 'License Raw', month_data)
+write(license_raw, "license_raw.json")
 
 trend_data = paste(trend_output, collapse=',')
-trend_data = paste(paste(rep(',', 12), collapse=""), trend_data, sep='')
+trend_data = paste(paste(rep('null', 12), collapse=","), ',', trend_data, sep='')
 
 
+license_trend <- paste(
+ '{"grouping" : "Business Licenses",
+ "type" : "Trend",
+ "Title" : "Monthly Count of New Business Licenses",
+ "Source" : "City of Chicago",
+ "Label" : "Issued business licenses",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [',
+  trend_data,
+  ']}')
 
-updateFT(auth, login.table_id, 'License Trend', trend_data)
-
-
-x <- 11:0
-trend.y <- trend_output[length(trend_output)-x]
-x <- 0:11
-trend.lm <- lm(trend.y~x)
-
-m <- trend.lm$coef[2]
-
-updateFT(auth,login.table_id,'License Trend',m, 'CurrentTrend')
-
-
+write(license_trend, "license_trend.json")
+ 

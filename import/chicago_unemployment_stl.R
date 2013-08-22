@@ -1,7 +1,4 @@
 library(tframe)
-source('fusion-tables.R')
-source('login.R')
-
 
 illinois.laus <- read.table("ftp://ftp.bls.gov/pub/time.series/la/la.data.20.Illinois", fill=TRUE, header=TRUE)
 
@@ -24,13 +21,13 @@ upl_ts <-ts(unemployment.df$value,
 upl_stl <- stl(log(upl_ts),
                s.window=15,
                robust=TRUE)
-plot(upl_stl)
+#plot(upl_stl)
 
 upl_trend <- round(exp(upl_stl$time.series[,'trend']),2)
-upl_trend <- tfwindow(upl_trend,start=c(2005,1))
+upl_trend <- tframe::tfwindow(upl_trend,start=c(2005,1))
 upl_season <- round(exp(upl_stl$time.series[,'seasonal']),2)
-upl_season <- tfwindow(upl_season,start=c(2005,1))
-upl_ts <- tfwindow(upl_ts,start=c(2005,1))
+upl_season <- tframe::tfwindow(upl_season,start=c(2005,1))
+upl_ts <- tframe::tfwindow(upl_ts,start=c(2005,1))
 
 x <- 11:0
 trend.y <- upl_trend[length(upl_trend)-x]
@@ -39,15 +36,40 @@ trend.lm <- lm(trend.y~x)
 
 m <- trend.lm$coef[2]
 
-auth = ft.connect(login.username, login.password)
-
 month_data = paste(upl_ts, collapse=',')
-month_data = paste(month_data, ',', sep='')
-updateFT(auth,login.table_id,'Chicago Unemployment Monthly',month_data)
+month_data = paste(month_data, ',null', sep='')
+
+unemployment_raw <- paste(
+ '{"grouping" : "Unemployment",
+ "type" : "Raw",
+ "Title" : "Monthly Unemployment Rate",
+ "Source" : "IDES",
+ "Label" : "Unemployment rate (%)",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [',
+  month_data,
+  ']}')
+
+
+write(unemployment_raw, "unemployment_raw.json")
+
 
 trend_data = paste(upl_trend, collapse=',')
-trend_data = paste(trend_data, ',,', sep='')
-updateFT(auth,login.table_id,'Chicago Unemployment Trend', trend_data)
+trend_data = paste(trend_data, ',null', sep='')
 
+unemployment_trend <- paste(
+ '{"grouping" : "Unemployment",
+ "type" : "Trend",
+ "Title" : "Seasonally Adjusted Monthly Unemployment Rate",
+ "Source" : "IDES",
+ "Label" : "Unemployment rate (%)",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [',
+  trend_data,
+  ']}')
+
+write(unemployment_trend, "unemployment_trend.json")
 
 

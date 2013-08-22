@@ -1,6 +1,4 @@
 library(xts)
-source('fusion-tables.R')
-source('login.R')
 
 #Permit Trend and Linear approximation
 permit.url <- "http://data.cityofchicago.org/api/views/k9hk-r56e/rows.csv"
@@ -25,7 +23,7 @@ begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 permit <- permit[permit$date >= "2006-1-01"
                  & permit$date < begin_curr_month,]
 
-permit_xts <- xts(permit$count, permit$date)
+permit_xts <- xts::xts(permit$count, permit$date)
 month_permit <- apply.monthly(permit_xts,sum)
 
 month_permit_ts <- ts(as.numeric(month_permit), c(2006, 1), frequency=12)
@@ -42,22 +40,36 @@ permit_trend <- round(exp(permit_stl$time.series[,'trend']), 2)
 
 permit_season <- round(exp(permit_stl$time.series[,'seasonal']), 2)
 
-auth = ft.connect(login.username, login.password)
-
 month_data = paste(month_permit_ts, collapse=',')
-month_data = paste(paste(rep(',', 12), collapse=""), month_data, sep='')
-updateFT(auth, login.api_key, login.table_id, 'Permit Raw', month_data)
+month_data = paste(paste(rep('null', 12), collapse=","), ',', month_data, sep='')
+
+permits_raw <- paste(
+ '{"grouping" : "Building Permit",
+ "type" : "Raw",
+ "Title" : "Monthly Count of New Building Permits",
+ "Source" : "City of Chicago",
+ "Label" : "Issued building permits",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [',
+  month_data,
+  ']}')
+
+write(permits_raw, "permits_raw.json")
 
 trend_data = paste(permit_trend, collapse=',')
-trend_data = paste(paste(rep(',', 12), collapse=""), trend_data, sep='')
-updateFT(auth, login.api_key, login.table_id,'Permit Trend', trend_data)
+trend_data = paste(paste(rep('null', 12), collapse=","), ',', trend_data, sep='')
 
+permits_trend <- paste(
+ '{"grouping" : "Building Permit",
+ "type" : "Trend",
+ "Title" : "Seasonally Adjusted Trend of New Building Permits",
+ "Source" : "City of Chicago",
+ "Label" : "Issued building permits",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [',
+  trend_data,
+  ']}')
 
-x <- 11:0
-trend.y <- permit_trend[length(permit_trend)-x]
-x <- 0:11
-trend.lm <- lm(trend.y~x)
-
-m <- trend.lm$coef[2]
-
-updateFT(auth, login.api_key, login.table_id, 'Permit Trend', m, 'CurrentTrend')
+write(permits_trend, "permits_trend.json")
