@@ -1,5 +1,5 @@
 var ChartHelper = {};
-ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval) {
+ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval, dataType) {
   // console.log("rendering to: #chart_" + iteration);
   // console.log("title: " + title);
   // console.log("sourceTxt: " + sourceTxt);
@@ -15,7 +15,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
           color: colorHash["#c30c30"],
           data: dataArray[0],
           showInLegend: false,
-          name: "Raw numbers",
+          name: "Raw",
           lineWidth: 3
       }];
   }
@@ -23,7 +23,7 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
     seriesData = [{
           color: "#cccccc",
           data: dataArray[0],
-          name: "Raw numbers"
+          name: "Raw"
         }, {
           color: colorHash["trend"],
           data: dataArray[1],
@@ -88,8 +88,10 @@ ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray
           formatter: function() {
             var s = "<strong>" + ChartHelper.toolTipDateFormat(pointInterval, this.x) + "</strong>";
             $.each(this.points, function(i, point) {
-              if (point.y <= 100) //hack for percentages
+              if (dataType == 'percent')
                 s += "<br /><span style='color: " + point.series.color + "'>" + point.series.name + ":</span> " + point.y + "%";
+              else if (dataType == 'money')
+                s += "<br /><span style='color: " + point.series.color + "'>" + point.series.name + ":</span> $" + Highcharts.numberFormat(point.y, 0);
               else
                 s += "<br /><span style='color: " + point.series.color + "'>" + point.series.name + ":</span> " + Highcharts.numberFormat(point.y, 0);
             });
@@ -144,6 +146,8 @@ ChartHelper.getColors = function(name) {
     return {"raw": "", "trend": "#7570B3"}
   else if (name == "Foreclosures")
     return {"raw": "", "trend": "#E7298A"}
+  else if (name == "Taxable-Sales")
+    return {"raw": "", "trend": "#3D96AE"}
   else
     return {"raw": "", "trend": ""}
 }

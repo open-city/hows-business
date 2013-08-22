@@ -10,7 +10,7 @@
       %a{:href => "https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr"} City of Chicago
       |
       Trend: 
-      %span.label.label-warning
+      %span.label.label-important
         Been better
         
     #chart_Business-Licenses.chart
@@ -41,7 +41,7 @@
       %a{:href => "https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu"} City of Chicago
       |
       Trend: 
-      %span.label.label-warning
+      %span.label.label-important
         Been better
     #chart_Building-Permits.chart
   .span6.well
@@ -59,6 +59,22 @@
       %span.label.label-warning
         Holding steady
     #chart_Foreclosures.chart
+
+.row-fluid
+  .span6.well
+    %h3 
+      %a{:href => "/about#taxable-sales"}
+        Taxable Sales
+        %small
+          More info
+    %p 
+      Source:
+      %a{:href => "https://www.revenue.state.il.us/app/kob/index.jsp"} State of Illinois
+      |
+      Trend: 
+      %span.label.label-success
+        Bouncing back
+    #chart_Taxable-Sales.chart
 
 .row-fluid
   .span12

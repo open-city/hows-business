@@ -3,6 +3,7 @@ $(function () {
   showChart(unemployment);
   showChart(permits);
   showChart(foreclosures);
+  showChart(taxable_sales);
 });
 
 function showChart(json) {
@@ -20,7 +21,7 @@ function showChart(json) {
 	  startDate = Date.UTC(json['Start Year'], 0, 15);
 
 	//iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval
-	ChartHelper.create(convertToSlug(json['grouping']), json['Title'], json['Source'], json['Label'], [raw, trend], startDate, json['Point Interval']);
+	ChartHelper.create(convertToSlug(json['grouping']), json['Title'], json['Source'], json['Label'], [raw, trend], startDate, json['Point Interval'], json['Data Type']);
 
 }
 
