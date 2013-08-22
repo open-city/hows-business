@@ -8,6 +8,5 @@ gem "sinatra-r18n"
 gem "haml"
 
 group :development do
-  gem "heroku"
   gem "unicorn"
 end
