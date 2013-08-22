@@ -39,10 +39,7 @@
       .container-fluid
         %hr
         %p
-          A project by Daniel Morton, 
-          = succeed ',' do
-            %a{:href => 'http://derekeder.com'} Derek Eder
-          Forest Gregg and Matt Gee.
+          An <a href='http://opencityapps.org'>Open City</a> project by Daniel Morton, Derek Eder, Forest Gregg and Matt Gee.
       
     // raw and trend data. json data defined as a variable
     = include_javascript "http://bunkum.us/hb_data/licenses.js"
@@ -58,5 +55,5 @@
 
     = content :javascripts
 
-    = include_javascript :"analytics_lib" if production?
+    = include_javascript :"analytics_lib" if settings.production?
 
