@@ -69,37 +69,23 @@ season_output <- round(exp(decomposed_month$time.series[,1]),2)
 month_data = paste(month_count_ts, collapse=',')
 month_data = paste(paste(rep('null', 12), collapse=","), ',', month_data, sep='')
 
-month_data = paste(month_data, ',null', sep='')
-
-license_raw <- paste(
- '{"grouping" : "Business Licenses",
- "type" : "Raw",
- "Title" : "Monthly Count of New Business Licenses",
- "Source" : "City of Chicago",
- "Label" : "Issued business licenses",
- "Start Year" : 2005,
- "Point Interval" : "month",
- "Data" : [',
-  month_data,
-  ']}')
-
-write(license_raw, "license_raw.json")
-
 trend_data = paste(trend_output, collapse=',')
 trend_data = paste(paste(rep('null', 12), collapse=","), ',', trend_data, sep='')
 
-
-license_trend <- paste(
- '{"grouping" : "Business Licenses",
- "type" : "Trend",
- "Title" : "Monthly Count of New Business Licenses",
+license <- paste(
+ 'var licenses = {"grouping" : "Business Licenses",
+ "Title" : "Monthly New Business Licenses",
  "Source" : "City of Chicago",
  "Label" : "Issued business licenses",
  "Start Year" : 2005,
  "Point Interval" : "month",
- "Data" : [',
+ "Data Raw" : [',
+  month_data,
+  '],
+ "Data Trend" : [',
   trend_data,
   ']}')
 
-write(license_trend, "license_trend.json")
+
+write(license, "licenses.js")
  

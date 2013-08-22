@@ -39,37 +39,21 @@ m <- trend.lm$coef[2]
 month_data = paste(upl_ts, collapse=',')
 month_data = paste(month_data, ',null', sep='')
 
-unemployment_raw <- paste(
- '{"grouping" : "Unemployment",
- "type" : "Raw",
+trend_data = paste(upl_trend, collapse=',')
+trend_data = paste(trend_data, ',null', sep='')
+
+unemployment <- paste(
+ 'var unemployment = {"grouping" : "Unemployment",
  "Title" : "Monthly Unemployment Rate",
  "Source" : "IDES",
  "Label" : "Unemployment rate (%)",
  "Start Year" : 2005,
  "Point Interval" : "month",
- "Data" : [',
+ "Data Raw" : [',
   month_data,
-  ']}')
-
-
-write(unemployment_raw, "unemployment_raw.json")
-
-
-trend_data = paste(upl_trend, collapse=',')
-trend_data = paste(trend_data, ',null', sep='')
-
-unemployment_trend <- paste(
- '{"grouping" : "Unemployment",
- "type" : "Trend",
- "Title" : "Seasonally Adjusted Monthly Unemployment Rate",
- "Source" : "IDES",
- "Label" : "Unemployment rate (%)",
- "Start Year" : 2005,
- "Point Interval" : "month",
- "Data" : [',
+  '],
+ "Data Trend" : [',
   trend_data,
   ']}')
 
-write(unemployment_trend, "unemployment_trend.json")
-
-
+write(unemployment, "unemployment.js")

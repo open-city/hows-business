@@ -43,33 +43,21 @@ permit_season <- round(exp(permit_stl$time.series[,'seasonal']), 2)
 month_data = paste(month_permit_ts, collapse=',')
 month_data = paste(paste(rep('null', 12), collapse=","), ',', month_data, sep='')
 
-permits_raw <- paste(
- '{"grouping" : "Building Permit",
- "type" : "Raw",
- "Title" : "Monthly Count of New Building Permits",
- "Source" : "City of Chicago",
- "Label" : "Issued building permits",
- "Start Year" : 2005,
- "Point Interval" : "month",
- "Data" : [',
-  month_data,
-  ']}')
-
-write(permits_raw, "permits_raw.json")
-
 trend_data = paste(permit_trend, collapse=',')
 trend_data = paste(paste(rep('null', 12), collapse=","), ',', trend_data, sep='')
 
-permits_trend <- paste(
- '{"grouping" : "Building Permit",
- "type" : "Trend",
- "Title" : "Seasonally Adjusted Trend of New Building Permits",
+permits <- paste(
+ 'var permits = {"grouping" : "Building Permits",
+ "Title" : "Monthly New Building Permits",
  "Source" : "City of Chicago",
  "Label" : "Issued building permits",
  "Start Year" : 2005,
  "Point Interval" : "month",
- "Data" : [',
+ "Data Raw" : [',
+  month_data,
+  '],
+ "Data Trend" : [',
   trend_data,
   ']}')
 
-write(permits_trend, "permits_trend.json")
+write(permits, "permits.js")

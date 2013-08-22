@@ -9,18 +9,18 @@ quarterly_data = paste(foreclosure.ts, collapse=",")
 quarterly_data = paste(paste(rep('null', 4), collapse=","), ',', quarterly_data, sep='')
 quarterly_data = paste(quarterly_data, ",null", sep='')
 
-foreclosures_raw <- paste(
- '{"grouping" : "Foreclosures",
- "type" : "Raw",
+foreclosures <- paste(
+ 'var foreclosures = {"grouping" : "Foreclosures",
  "Title" : "Quarterly Foreclosures",
  "Source" : "Woodstock Institute",
  "Label" : "Foreclosures",
  "Start Year" : 2005,
  "Point Interval" : "quarter",
- "Data" : [',
+ "Data Trend" : [], 
+ "Data Raw" : [',
   quarterly_data,
   ']}')
 
-write(foreclosures_raw, "foreclosures_raw.json")
+write(foreclosures, "foreclosures.js")
 
 
