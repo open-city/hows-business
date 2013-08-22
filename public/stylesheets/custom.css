@@ -8,6 +8,8 @@ body {
   font-size:16px; 
 }
 
+p { line-height: 1.4em; }
+
 .well {padding-top: 0; }
 
 .label {font-family: "Verdana"; font-size: 14px; font-weight: normal;}

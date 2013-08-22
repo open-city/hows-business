@@ -178,16 +178,59 @@
       (the series ID for Chicago unemployment is LAUPS17010003).
 
 
-    %h3#taxable-sales Taxable Sales
+    %h3#taxable-sales Taxable Sales (Inflation Adjusted)
 
+    %p
+      Consumer spending is the major driver of the overall economy. By measuring the taxable sales of general merchandise, we can get a picture of how much money is coming in to the Chicago economy.
 
-
+    %p
+      We don't have a direct measure of spending for Chicago, so we use sales tax revenue as a proxy.
 
     #chart_Taxable-Sales.chart
 
     %h4 The Data
 
+    %p
+      The State of Illinois 
+      %a{:href => "https://www.revenue.state.il.us/app/kob/index.jsp"} reports the Chicago's Home Rule Sales tax receipts 
+      quarterly. If we know the tax rate, we can back out the original volumes of sales (0.0125% during this period). 
 
+    %p
+      To get this data from the State of Illinois, we 
+      %a{:href => 'https://github.com/fgregg/scraping-intro'} wrote a scraper 
+      to extract all the numbers from their website. The data which this scraper produces can be 
+      = succeed '.' do
+        %a{:href => 'https://github.com/open-city/hows-business/blob/master/import/data/taxes.csv'} downloaded in CSV format
+
+    %p
+      These raw numbers need to be adjusted for inflation to current dollars, which we do with the 
+      = succeed '.' do
+        %a{:href => 'http://www.research.stlouisfed.org/fred2/series/CUURA207SAC?rid=10'} Chicago-Gary-Kenosha Consumer Price Index
+
+
+    %p
+      %strong General merchandise, 
+      %sup
+        %a{:href => '#f6'} [#6]
+      which we are measuring, includes sales of most tangible personal property including sales of
+      %ul
+        %li soft drinks and candy
+        %li prepared food such as food purchased at a restaurant
+        %li photo processing (getting pictures developed)
+        %li prewritten and “canned” computer software
+        %li prepaid telephone calling cards and other prepaid telephone calling arrangements
+        %li repair parts and other items transferred or sold in conjunction with providing a service under certain circumstances based on the actual selling price
+        %li grooming and hygiene products
+
+    %p
+      It does 
+      %strong not 
+      include the sale of
+
+    %ul
+      %li food
+      %li prescription and non-prescription drugs
+      %li vehicles
 
     
     %h2#from-raw-numbers-to-trends From raw numbers to trends
@@ -282,3 +325,5 @@
           Projects which do <em>not</em> require a permit. 
       %li#f5
         We also handle one day that is very different from the rest. In the City’s data, there are 1,994 licenses that are reported as issued on July 7, 2007. Typically, the Department of Buildings issues one to two hundred licenses on any day. We throw out the count for this day, and replace it with the average daily permits from the two week period around it.
+      %li#f6
+        %a{:href => "http://www.revenue.state.il.us/businesses/taxinformation/sales/rot.htm"} Illinois Department of Revenue, Sales and Use Taxes
