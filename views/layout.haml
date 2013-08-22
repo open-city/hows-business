@@ -44,8 +44,18 @@
             %a{:href => 'http://derekeder.com'} Derek Eder
           Forest Gregg and Matt Gee.
       
+    // raw and trend data. json data defined as a variable
+    = include_javascript :"foreclosures"
+    / = include_javascript "http://bunkum.us/hb_data/license.js"
+    / = include_javascript "http://bunkum.us/hb_data/permits.js"
+    / = include_javascript "http://bunkum.us/hb_data/unemployment.js"
+
     = include_javascript :jquery
     = include_javascript :bootstrap
+    = include_javascript :highcharts
+    = include_javascript :chart_helper
+    = include_javascript :app
+
     = content :javascripts
 
     = include_javascript :"analytics_lib" if production?

@@ -1,16 +1,3 @@
-- content_for :javascripts do
-  = include_javascript :highcharts
-  = include_javascript :chart_helper
-  = include_javascript :fusion_tables
-  
-  :javascript
-    $(function () {
-      FusionTables.getChart("Grouping = 'Business Licenses' AND Type IN ('Trend', 'Raw')");
-      FusionTables.getChart("Grouping = 'Building Permits' AND Type IN ('Trend', 'Raw')");
-      FusionTables.getChart("Grouping = 'Unemployment' AND 'Source' = 'IDES' AND Type IN ('Trend', 'Raw')");
-      FusionTables.getChart("Name = 'Foreclosure Quarterly'");
-    });
-
 .row-fluid
   .span6.well
     %h3

@@ -1,16 +1,16 @@
 var ChartHelper = {};
 ChartHelper.create = function(iteration, title, sourceTxt, yaxisLabel, dataArray, startDate, pointInterval) {
-  //console.log("rendering to: #chart_" + iteration);
+  // console.log("rendering to: #chart_" + iteration);
   // console.log("title: " + title);
   // console.log("sourceTxt: " + sourceTxt);
   // console.log("yaxisLabel: " + yaxisLabel);
-  // console.log("dataArray: " + dataArray);
+  // console.log(dataArray);
   // console.log("startDate: " + startDate);
   // console.log("pointInterval: " + pointInterval);
   
   var colorHash = ChartHelper.getColors(iteration);
   var seriesData;
-  if (dataArray.length == 1) {
+  if (dataArray[1].length == 0) {
     seriesData = [{
           color: colorHash["#c30c30"],
           data: dataArray[0],
