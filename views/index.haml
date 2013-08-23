@@ -1,19 +1,19 @@
 .row-fluid
   .span6.well
-    %h3
-      %a{:href => "/about#new-businesses"} 
-        New Business Licenses
+    %h3 
+      %a{:href => "/about#taxable-sales"}
+        Taxable Sales (Inflation Adjusted)
         %small
           More info
-    %p
-      Source: 
-      %a{:href => "https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr"} City of Chicago
+    %p 
+      Source:
+      %a{:href => "https://www.revenue.state.il.us/app/kob/index.jsp"} Illinois Dept of Revenue
       |
       Trend: 
-      %span.label.label-important
-        Been better
-        
-    #chart_Business-Licenses.chart
+      %span.label.label-success
+        Bouncing back
+    #chart_Taxable-Sales.chart
+
   .span6.well
     %h3 
       %a{:href => "/about#unemployment"}
@@ -42,7 +42,7 @@
       |
       Trend: 
       %span.label.label-important
-        Been better
+        Steady decline
     #chart_Building-Permits.chart
   .span6.well
     %h3 
@@ -62,19 +62,20 @@
 
 .row-fluid
   .span6.well
-    %h3 
-      %a{:href => "/about#taxable-sales"}
-        Taxable Sales (Inflation Adjusted)
+    %h3
+      %a{:href => "/about#new-businesses"} 
+        New Business Licenses
         %small
           More info
-    %p 
-      Source:
-      %a{:href => "https://www.revenue.state.il.us/app/kob/index.jsp"} State of Illinois
+    %p
+      Source: 
+      %a{:href => "https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr"} City of Chicago
       |
       Trend: 
-      %span.label.label-success
-        Bouncing back
-    #chart_Taxable-Sales.chart
+      %span.label.label-important
+        Been better
+        
+    #chart_Business-Licenses.chart
 
 .row-fluid
   .span12

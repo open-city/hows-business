@@ -271,6 +271,11 @@
 
     %h2#team Team
 
+    %p
+      This is an 
+      %a{:href => 'http://opencityapps.org'} Open City 
+      project done as a volunteer effort. The team is:
+
     %ul
       %li Daniel Morton - statistical analysis
       %li 
@@ -279,14 +284,12 @@
       %li Matt Gee - statistical analysis and about page
       %li Forest Gregg - statistical analysis and about page
 
-    %h2#code Code
+    %h2#code Code and Data
 
     %p 
-      his site was built entirely open source and uses open data. The code is on 
-      %a{:href => 'https://github.com/open-city/hows-business'} Github
-      and 
-      = succeed '.' do
-        %a{:href => 'http://bunkum.us/hb_data/'} the data is available as JSON
+      This site was built entirely open source and free to download on
+      = succeed '.' do 
+        %a{:href => 'https://github.com/open-city/hows-business'} Github
 
     %p Technologies used:
 
@@ -302,11 +305,19 @@
       %li
         %a{:href => "http://twitter.github.com/bootstrap"} Twitter Bootstrap
 
+    %p
+      All the data used for this site come from open sources. The raw counts and trend lines are
+      = succeed '.' do
+        %a{:href => 'http://bunkum.us/hb_data/'} available as JSON
+
     %h2#contact-us Contact Us
 
     %p 
       Think we should be tracking other measures of Chicago’s economic climate? Interested in cruching the numbers? Contact us at 
       %a{:href => 'mailto:info@howsbusinesschicago.org'} info@howsbusinesschicago.org
+      or 
+      %a{:href => 'https://github.com/open-city/hows-business/issues'} file an issue 
+      on our tracker.
 
     %hr
     %h2#footnotes Footnotes
