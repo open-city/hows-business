@@ -144,7 +144,7 @@ ChartHelper.getColors = function(name) {
     return {"raw": "#FEE08B", "trend": "#D95F02"}
   else if (name == "Building-Permits")
     return {"raw": "", "trend": "#7570B3"}
-  else if (name == "Foreclosures")
+  else if (name == "HPI")
     return {"raw": "", "trend": "#E7298A"}
   else if (name == "Taxable-Sales")
     return {"raw": "", "trend": "#3D96AE"}

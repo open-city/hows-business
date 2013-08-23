@@ -1,6 +1,6 @@
 library(tframe)
 
-hpi <- read.csv("data/q1_2013_ihs_house_price_index_tabular_data.csv")
+hpi <- read.csv("ihs_index.csv")
 
 hpi.ts <- ts(hpi$Single.Family,
              start = c(1997, 1),

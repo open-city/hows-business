@@ -2,8 +2,9 @@ $(function () {
   showChart(licenses);
   showChart(unemployment);
   showChart(permits);
-  showChart(foreclosures);
+  // showChart(foreclosures);
   showChart(taxable_sales);
+  showChart(hpi);
 });
 
 function showChart(json) {

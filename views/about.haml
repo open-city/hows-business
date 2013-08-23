@@ -71,7 +71,7 @@
     %p To measure new businesses, we use counts of new business licenses filed with the City of Chicago. 
 
     %p 
-      The City of Chicago requires new companies to get business licenses
+      The City of Chicago requires most companies to get business licenses
       = succeed ',' do
         %sup
           %a{:href => '#f1'} [#1]
@@ -81,7 +81,7 @@
       Each month, we add up all the licenses the City has issued to new businesses, and that is our measure.
 
     %p 
-      Some new licenses are for existing businesses that want to do something that requires a special license. If a restaurant wants a new patio, for example, it needs an extra license. We’ve removed these kinds of licenses from our analysis
+       Nearly all businesses are required to get a Limited Business License, so that's the license type we count
       = succeed '.' do
         %sup
           %a{:href => '#f2'} [#2]
@@ -116,34 +116,27 @@
         %sup
           %a{:href => '#f5'} [#5]
 
-    %h3#foreclosures Housing Foreclosures
+    %h3#hpi Housing Price Index
 
-    %p Foreclosures happen when a household can’t pay its bills, often because its monthly mortgage payments have gone up, or someone lost their job. The bank that issued the mortgage then takes over the home - that’s the foreclosure.
+    %p For most people, housing is the largest single part of their
+     monthly budget and the for many families the largest asset. 
 
-    %p So when the economy crashes, and household budgets tighten, foreclosure rates climb.
-
-    %p But high foreclosure rates don’t just reflect a struggling economy. They also drag on the economy itself, by depressing the housing market.
-
-    %p Here’s how it happens. Falling housing prices often spur foreclosures. Foreclosured homes, in turn, further lowering nearby housing prices. And that can lead to even more foreclosures.
-
-    %p As the past few has shown, this negative feedback loop can depress housing prices for years, slowing the recovery of the housing market.
-
-    #chart_Foreclosures.chart
+    #chart_HPI.chart
 
     %h4 The Data
     
-    %p 
-      Our 
-      %a{:href => "http://bunkum.us/hb_data/foreclosures.js"} data on foreclosure filings 
-      comes from the 
-      = succeed ',' do
-        %a{:href => 'http://www.woodstockinst.org/'} Woodstock Institute
-      a local think tank that works on housing issues. They buy it from a company called 
-      = succeed ',' do
-        %a{:href => 'http://www.public-record.com/content/databases/foreclosures/'} Record Information Services
-      who gets it from the Clerk of the Circuit Court of Cook County. 
+    %p Our %a{:href => "http://bunkum.us/hb_data/hpi.js"} data on
+      housing prices comes from the = succeed ',' do %a{:href =>
+      'http://www.housingstudies.org/data/ihs-price-index/'} the
+      Depaul University Institute of Housing Studies. They have
+      created an quarterly housing price index just for Cook County,
+      which allows you compares a total market across time. The base
+      quarter is the beginning of 2000, with an index value of 100. An
+      index value of 110 means that average market price is 10% higher
+      than it was in the first quarter of 2000 (adjusted for
+      inflation). For more details, you can check out their full
+      methodology. http://www.housingstudies.org/media/filer_public/2013/03/11/tr_repeatsalehousepriceindexmarch2013.pdf
 
-    %p To avoid double counting, Woodstock removes any foreclosure filings made within 90 days of an initial filing. Then, they count up all the foreclosure filings made in Chicago for each quarter of the year.
 
     %h3#unemployment Unemployment
 
