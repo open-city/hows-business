@@ -1,8 +1,11 @@
 library(xts)
+library(RCurl)
 
 #Permit Trend and Linear approximation
-permit.url <- "http://data.cityofchicago.org/api/views/k9hk-r56e/rows.csv"
-permit <- read.csv(permit.url)
+permit.url <- "https://data.cityofchicago.org/resource/ydr8-5enu.csv?$select=_issue_date,count(_issue_date)&$group=_issue_date&$where=_permit_type='PERMIT - NEW CONSTRUCTION' OR _permit_type='PERMIT - RENOVATION/ALTERATION'&$limit=100000"
+permit.csv <- RCurl::getURLContent(URLencode(permit.url))
+permit <- read.csv(textConnection(permit.csv))
+
 names(permit) <- c("date", "count")
 
 permit$date <- as.Date(permit$date,"%m/%d/%Y")
@@ -52,6 +55,7 @@ permits <- paste(
  "Source" : "City of Chicago",
  "Label" : "Issued building permits",
  "Start Year" : 2005,
+ "Data Type" : "count",
  "Point Interval" : "month",
  "Data Raw" : [',
   month_data,

@@ -48,6 +48,7 @@ unemployment <- paste(
  "Source" : "IDES",
  "Label" : "Unemployment rate (%)",
  "Start Year" : 2005,
+ "Data Type" : "percent",
  "Point Interval" : "month",
  "Data Raw" : [',
   month_data,

@@ -1,0 +1,8 @@
+var license_raw = {"grouping" : "Business Licenses",
+ "type" : "Raw",
+ "Title" : "Monthly Count of New Business Licenses",
+ "Source" : "City of Chicago",
+ "Label" : "Issued business licenses",
+ "Start Year" : 2005,
+ "Point Interval" : "month",
+ "Data" : [ null,null,null,null,null,null,null,null,null,null,null,null,807,1057,1228,1049,1144,1346,930,970,759,997,1111,778,947,795,972,918,1055,970,812,919,735,891,920,771,878,981,1177,1047,1001,1087,974,863,790,794,675,620,611,676,863,842,905,981,1011,794,819,821,741,703,616,654,893,877,786,900,781,834,752,745,628,640,675,576,1007,793,837,986,974,1077,830,843,690,614,622,812,845,852,862,808,836,842,619,605,514,447,551,481,588,676,862,1276,1007,null ]}

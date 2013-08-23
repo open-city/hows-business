@@ -49,6 +49,7 @@ taxes_js <- paste(
  "Title" : "Quarterly Taxable Sales in Chicago",
  "Source" : "State of Illinois",
  "Label" : "Dollars",
+ "Data Type" : "money", 
  "Start Year" : 2005,
  "Point Interval" : "quarter",
  "Data Trend" : [',

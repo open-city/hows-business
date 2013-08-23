@@ -1,70 +1,33 @@
 suppressMessages(library(xts))
+library(RCurl)
 
 print('loading issued business licenses ...')
 
 #import data
+license.url <- "http://data.cityofchicago.org/resource/r5kz-chrr.csv?$select=payment_date,count(payment_date)&$group=payment_date&$where=application_type='ISSUE' AND license_code='1010'&$order=payment_date&$limit=10000"
+license.csv <- RCurl::getURLContent(URLencode(license.url))
+licenses <- read.csv(textConnection(license.csv))
 
-license.url <- "http://data.cityofchicago.org/api/views/xh8b-g55w/rows.csv"
-raw_licenses <- read.csv(license.url)
+names(licenses) <- c("date", "count")
 
-derived_business_licenses <- c("Auto Gas Pump Certification",
-                               "Special Event Food",
-                               "Tobacco Retail Over Counter",
-                               "Consumption on Premises - Incidental Activity",
-                               "Hazardous Materials",
-                               "Package Goods",
-                               "Raffles",
-                               "Outdoor Patio",
-                               "Repossessor Class B Employee",
-                               "Explosives, Certificate of Fitness",
-                               "Caterer's Liquor License",
-                               "Expediter - Class B Employee",
-                               "Accessory Garage",
-                               "Expediter - Class B",
-                               "Retail Food Est.-Supplemental License for Dog-Friendly Areas",
-                               "Food - Shared Kitchen Long-Term User",
-                               "Class B - Indoor Special Event",
-                               "Food - Shared Kitchen Short-Term User",
-                               "Repossessor Class B",
-                               "(Other)",
-                               "Caterer's Registration (Liquor)",
-                               "Food - Shared Kitchen - Supplemental")
-
-#filter out licenses that alway require a business license
-filtered_licenses <- raw_licenses[!raw_licenses$LICENSE.DESCRIPTION
-                                  %in% derived_business_licenses,
-                                  c("LICENSE.DESCRIPTION", "PAYMENT.DATE")]
-names(filtered_licenses) <- c("LICENSE.DESCRIPTION", "date")
-filtered_licenses$date <- factor(filtered_licenses$date)
-
-# Count Licenses By Day
-date_count <- table(filtered_licenses$date)
-date_count <- as.data.frame(date_count)
-names(date_count) <- c("date", "count")
-date_count <- date_count[date_count$date != "",]
-date_count$date <- as.Date(date_count$date, "%m/%d/%Y")
+licenses$date <- as.Date(licenses$date,"%m/%d/%Y")
+licenses <- licenses[!is.na(licenses$date),]
+#licenses <- licenses[order(licenses$date),]
 
 # Select only whole months
 begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
-#begin_last_month <- as.Date(as.yearmon(as.Date(as.yearmon(Sys.Date())) - 1))
 
-date_count <- date_count[date_count$date >= "2006-01-01",]
-date_count <- date_count[date_count$date < begin_curr_month,]
-date_count <- xts::xts(date_count$count, date_count$date)
+licenses <- licenses[licenses$date >= "2006-1-01"
+                 & licenses$date < begin_curr_month,]
 
-month_count <- apply.monthly(date_count, sum)
-month_count_ts <- ts(as.numeric(month_count),
-                     c(2006, 1),
-                     frequency = 12)
+licenses_xts <- xts::xts(licenses$count, licenses$date)
+month_licenses <- apply.monthly(licenses_xts,sum)
 
-decomposed_month <- stl(log(month_count_ts),
-                        s.window=9,
-                        s.degree=1,
-                        robust=TRUE)
-#plot(decomposed_month)
+month_count_ts <- ts(as.numeric(month_licenses), c(2006, 1), frequency=12)
 
-trend_output <- round(exp(decomposed_month$time.series[,2]),2)
-season_output <- round(exp(decomposed_month$time.series[,1]),2)
+trend <- lowess(log(month_count_ts), f=.3)
+
+trend_output <- round(exp(trend$y),2)
 
 month_data = paste(month_count_ts, collapse=',')
 month_data = paste(paste(rep('null', 12), collapse=","), ',', month_data, sep='')
@@ -78,6 +41,7 @@ license <- paste(
  "Source" : "City of Chicago",
  "Label" : "Issued business licenses",
  "Start Year" : 2005,
+ "Data Type" : "count",
  "Point Interval" : "month",
  "Data Raw" : [',
   month_data,
