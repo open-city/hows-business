@@ -11,9 +11,9 @@
             %li 
               %a{:href => "#new-businesses" } New Businesses
             %li 
-              %a{:href => "#building-permits" } Building Permits
+              %a{:href => "#building-permits" } New Construction
             %li 
-              %a{:href => "#foreclosures" } Housing Foreclosures
+              %a{:href => "#hpi" } Housing Price Index
             %li 
               %a{:href => "#unemployment" } Unemployment
             %li 
@@ -69,7 +69,6 @@
     %h4 The Data
 
     %p To measure new businesses, we use counts of new business licenses filed with the City of Chicago. 
-
     %p 
       The City of Chicago requires most companies to get business licenses
       = succeed ',' do
@@ -81,13 +80,13 @@
       Each month, we add up all the licenses the City has issued to new businesses, and that is our measure.
 
     %p 
-       Nearly all businesses are required to get a Limited Business License, so that's the license type we count
+      Nearly all businesses are required to get a Limited Business License, so that's the license type we count
       = succeed '.' do
         %sup
           %a{:href => '#f2'} [#2]
 
 
-    %h3#building-permits Building Permits (New Construction)
+    %h3#building-permits New Construction (Building Permits)
 
     %p 
       Construction makes up 4% of Chicago’s economy
@@ -118,24 +117,27 @@
 
     %h3#hpi Housing Price Index
 
-    %p For most people, housing is the largest single part of their
-     monthly budget and the for many families the largest asset. 
+    %p For most people, housing is the largest single part of their monthly budget and the for many families the largest asset. 
 
     #chart_HPI.chart
 
     %h4 The Data
     
-    %p Our %a{:href => "http://bunkum.us/hb_data/hpi.js"} data on
-      housing prices comes from the = succeed ',' do %a{:href =>
-      'http://www.housingstudies.org/data/ihs-price-index/'} the
-      Depaul University Institute of Housing Studies. They have
+    %p 
+      Our 
+      %a{:href => "http://bunkum.us/hb_data/hpi.js"} data on
+      housing prices comes from the 
+      = succeed '.' do 
+        %a{:href => 'http://www.housingstudies.org/data/ihs-price-index/'} 
+          Depaul University Institute of Housing Studies
+      They have
       created an quarterly housing price index just for Cook County,
       which allows you compares a total market across time. The base
       quarter is the beginning of 2000, with an index value of 100. An
       index value of 110 means that average market price is 10% higher
       than it was in the first quarter of 2000 (adjusted for
-      inflation). For more details, you can check out their full
-      methodology. http://www.housingstudies.org/media/filer_public/2013/03/11/tr_repeatsalehousepriceindexmarch2013.pdf
+      inflation). For more details, you can check out their <a href='http://www.housingstudies.org/media/filer_public/2013/03/11/tr_repeatsalehousepriceindexmarch2013.pdf'>full
+      methodology</a>.
 
 
     %h3#unemployment Unemployment
