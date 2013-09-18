@@ -1,8 +1,8 @@
 library(tframe)
 
-hpi <- read.csv("ihs_index.csv")
+hpi <- read.csv("data/ihs_index.csv")
 
-hpi.ts <- ts(hpi$Single.Family,
+hpi.ts <- ts(hpi$Chicago,
              start = c(1997, 1),
              frequency = 4)
 hpi.ts <- tframe::tfwindow(hpi.ts, start=c(2005,1))
