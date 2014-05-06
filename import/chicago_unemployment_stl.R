@@ -1,8 +1,8 @@
 library(tframe)
 
-illinois.laus <- read.table("ftp://ftp.bls.gov/pub/time.series/la/la.data.20.Illinois", fill=TRUE, header=TRUE)
+illinois.laus <- read.table("http://download.bls.gov/pub/time.series/la/la.data.20.Illinois", fill=TRUE, header=TRUE)
 
-unemployment.df <- illinois.laus[illinois.laus$series_id == "LAUPS17010003"
+unemployment.df <- illinois.laus[illinois.laus$series_id == "LAUCT171400000000003"
                                  & illinois.laus$period != "M13",]
 
 unemployment.df$date <- as.Date(paste(unemployment.df$year,
