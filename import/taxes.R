@@ -2,7 +2,8 @@ library(tframe)
 
 taxes <- read.csv("data/taxes.csv")
 
-cpi <- read.table("ftp://ftp.bls.gov/pub/time.series/cu/cu.data.4.AsizeNorthCentral", fill=TRUE, header=TRUE)
+cpi <- read.table("http://download.bls.gov/pub/time.series/cu/cu.data.4.AsizeNorthCentral", 
+fill=TRUE, header=TRUE)
 
 cpi.df <- cpi[cpi$series_id == "CUURA207SA0"
               & cpi$period != "M13"
