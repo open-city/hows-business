@@ -2,22 +2,19 @@ import urllib2
 import sqlite3
 import csv
 
-#response = urllib2.urlopen('https://data.cityofchicago.org/api/views/r5kz-chrr/rows.csv?accessType=DOWNLOAD')
-#license_csv = response.read()
-
 con = sqlite3.connect(":memory:")
 cur = con.cursor()
-cur.execute("CREATE TABLE licenses (account_number, site_number, application_type, payment_date);")
+cur.execute("CREATE TABLE licenses (account_number, site_number, application_type, payment_date)")
 
+response = urllib2.urlopen('https://data.cityofchicago.org/api/views/r5kz-chrr/rows.csv?accessType=DOWNLOAD')
 
-with open('rows.csv?accessType=DOWNLOAD') as f :
-    reader = csv.DictReader(f)
-    values = ((row["ACCOUNT NUMBER"], 
-               row["SITE NUMBER"], 
-               row["APPLICATION TYPE"], 
-               row["PAYMENT DATE"]) for row in reader)
+reader = csv.DictReader(response)
+values = ((row["ACCOUNT NUMBER"], 
+           row["SITE NUMBER"], 
+           row["APPLICATION TYPE"], 
+           row["PAYMENT DATE"]) for row in reader)
 
-    cur.executemany("INSERT INTO licenses VALUES (?, ?, ?, ?)", values)
+cur.executemany("INSERT INTO licenses VALUES (?, ?, ?, ?)", values)
 con.commit()
 
 cur.execute("""
