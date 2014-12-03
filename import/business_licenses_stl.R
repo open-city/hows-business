@@ -1,12 +1,6 @@
 suppressMessages(library(xts))
-library(RCurl)
 
-print('loading issued business licenses ...')
-
-#import data
-license.url <- "http://data.cityofchicago.org/resource/r5kz-chrr.csv?$select=payment_date,count(payment_date)&$group=payment_date&$where=application_type='ISSUE' AND license_code='1010'&$order=payment_date&$limit=10000"
-license.csv <- RCurl::getURLContent(URLencode(license.url))
-licenses <- read.csv(textConnection(license.csv))
+licenses <- read.csv("daily_count.csv")
 
 names(licenses) <- c("date", "count")
 
