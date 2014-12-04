@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>How's Business?</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta content='text/css' http-equiv='Content-Style-Type'>
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content='' name='description'>
+    <meta content='' name='author'>
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.journal.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="/css/custom.css"/>
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class='container-fluid'>
+      <div class='page-header'>
+        <ul class='nav nav-pills pull-right'>
+          <li>
+            <a href='/'>Home</a>
+          </li>
+          <li class='active'>
+            <a href='/about'>About</a>
+          </li>
+        </ul>
+        <h1>
+          <a href='/'>
+            How's Business?
+            <small>
+              A look at the Chicago economy, based on open data
+            </small>
+          </a>
+        </h1>
+      </div>
+      <div class='row-fluid'>
+        <div class='span3'>
+          <div class='well'>
+            <h4>Sections</h4>
+            <ol class='faq'>
+              <li>
+                <a href='#hows-the-economy'>How's the economy?</a>
+              </li>
+              <li>
+                <a href='#what-were-measuring'>What we’re measuring</a>
+                <ul>
+                  <li>
+                    <a href='#taxable-sales'>Consumer Spending</a>
+                  </li>
+                  <li>
+                    <a href='#new-businesses'>New Businesses</a>
+                  </li>
+                  <li>
+                    <a href='#building-permits'>New Construction</a>
+                  </li>
+                  <li>
+                    <a href='#housing-price-index'>Housing Price Index</a>
+                  </li>
+                  <li>
+                    <a href='#unemployment'>Unemployment</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href='#from-raw-numbers-to-trends'>From raw numbers to trends</a>
+              </li>
+              <li>
+                <a href='#more-resources'>More resources</a>
+              </li>
+              <li>
+                <a href='#team'>Team</a>
+              </li>
+              <li>
+                <a href='#code'>Code</a>
+              </li>
+              <li>
+                <a href='#contact-us'>Contact us</a>
+              </li>
+              <li>
+                <a href='#footnotes'>Footnotes</a>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class='span8'>
+          <h2>About</h2>
+          <p>How’s Business provides a view of Chicago’s local economy. It uses open data to show how several economic indicators have been trending since 2005.</p>
+          <h2 id='hows-the-economy'>How’s the economy?</h2>
+          <p>This question doesn’t have a simple, single answer. That’s because the economy is not a simple, single thing. The economy is having a job, starting a business, getting a loan, deciding to save or invest, buying a new home, or missing a mortgage payment.</p>
+          <p>So if you want to know how the economy as a whole is doing, you have to find numbers that capture the economy’s many pieces.</p>
+          <p>The numbers we look at</p>
+          <ul>
+            <li>capture a key part of the economy</li>
+            <li>are local</li>
+            <li>are updated often</li>
+            <li>have been around long enough to reveal trends</li>
+            <li>are publicly accessible</li>
+          </ul>
+          <p>Let’s take them one by one.</p>
+          <h2 id='what-were-measuring'>What we’re measuring</h2>
+          <h3 id='taxable-sales'>Consumer Spending</h3>
+          <p>
+            Consumer spending is the major driver of the overall economy. By measuring the taxable sales of general merchandise, we can get a picture of how much money is coming in to the Chicago economy.
+          </p>
+          <p>
+            We don't have a direct measure of spending for Chicago, so we use sales tax revenue as a proxy.
+          </p>
+          <div class='chart' id='chart_Taxable-Sales'></div>
+          <h4>The Data</h4>
+          <p>
+            The State of Illinois
+            <a href='https://www.revenue.state.il.us/app/kob/index.jsp'>reports the Chicago's Home Rule Sales tax receipts</a>
+            quarterly. If we know the tax rate, we can back out the original volumes of sales (0.0125% during this period).
+          </p>
+          <p>
+            To get this data from the State of Illinois, we
+            <a href='https://github.com/fgregg/scraping-intro'>wrote a scraper</a>
+            to extract all the numbers from their website. The data which this scraper produces can be
+            <a href='https://github.com/open-city/hows-business/blob/master/import/data/taxes.csv'>downloaded in CSV format</a>.
+          </p>
+          <p>
+            These raw numbers need to be adjusted for inflation to current dollars, which we do with the
+            <a href='http://www.research.stlouisfed.org/fred2/series/CUURA207SAC?rid=10'>Chicago-Gary-Kenosha Consumer Price Index</a>.
+          </p>
+          <p>
+            <strong>General merchandise,</strong>
+            <sup>
+              <a href='#f6'>[#6]</a>
+            </sup>
+            which we are measuring, includes sales of most tangible personal property including sales of
+            <ul>
+              <li>soft drinks and candy</li>
+              <li>prepared food such as food purchased at a restaurant</li>
+              <li>photo processing (getting pictures developed)</li>
+              <li>prewritten and “canned” computer software</li>
+              <li>prepaid telephone calling cards and other prepaid telephone calling arrangements</li>
+              <li>repair parts and other items transferred or sold in conjunction with providing a service under certain circumstances based on the actual selling price</li>
+              <li>grooming and hygiene products</li>
+            </ul>
+          </p>
+          <p>
+            It does
+            <strong>not</strong>
+            include the sale of
+          </p>
+          <ul>
+            <li>food</li>
+            <li>prescription and non-prescription drugs</li>
+            <li>vehicles</li>
+          </ul>
+          <h3 id='new-businesses'>New Business Licenses</h3>
+          <p>
+            New businesses
+            <a href='http://www.kauffman.org/research-and-policy/where-will-the-jobs-come-from.aspx'>create most new jobs</a>.
+            They invent new products. And they pioneer new ways of doing business.
+          </p>
+          <p>Total businesses depend upon the balance between new businesses starting and old businesses failing. In general, higher rates of business creation increase total economic activity.</p>
+          <div class='chart' id='chart_Business-Licenses'></div>
+          <h4>The Data</h4>
+          <p>To measure new businesses, we use counts of new business licenses filed with the City of Chicago.</p>
+          <p>
+            The City of Chicago requires most companies to get business licenses
+            <sup>
+              <a href='#f1'>[#1]</a>
+            </sup>,
+            and reports the number and type of each business license on the City’s
+            <a href='https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses-Current-Active/uupf-x98q'>data portal</a>.
+            Each month, we add up all the licenses the City has issued to new businesses, and that is our measure.
+          </p>
+          <p>
+            Nearly all businesses are required to get a Limited Business License, so that's the license type we count
+            <sup>
+              <a href='#f2'>[#2]</a>
+            </sup>.
+          </p>
+          <h3 id='building-permits'>New Construction</h3>
+          <p>
+            Construction makes up 4% of Chicago’s economy
+            <sup>
+              <a href='#f3'>[#3]</a>
+            </sup>.
+            Economists often treat new construction as a leading indicator. That means if new construction rises - or falls - you can expect the rest of the economy to follow.
+          </p>
+          <div class='chart' id='chart_Building-Permits'></div>
+          <h4>The Data</h4>
+          <p>To measure new construction, we use building permits.</p>
+          <p>
+            Real-estate developers rehabbing a building, or building a new one, must get a building permit from the City of Chicago
+            <sup>
+              <a href='#f4'>[#4]</a>
+            </sup>.
+          </p>
+          <p>
+            Each month, we add up all the
+            <a href='https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu'>building permits</a>
+            the City has issued, and that is our measure
+            <sup>
+              <a href='#f5'>[#5]</a>
+            </sup>.
+          </p>
+          <h3 id='housing-price-index'>Housing Price Index</h3>
+          <p>For most people, housing is the largest single part of their monthly budget and the for many families the largest asset.</p>
+          <div class='chart' id='chart_HPI'></div>
+          <h4>The Data</h4>
+          <p>
+            Our
+            <a href='http://bunkum.us/hb_data/hpi.js'>data on</a>
+            housing prices comes from the
+            <a href='http://www.housingstudies.org/data/ihs-price-index/'>
+              Depaul University Institute of Housing Studies
+            </a>.
+            They have
+            created an quarterly housing price index just for Cook County,
+            which allows you compares a total market across time. The base
+            quarter is the beginning of 2000, with an index value of 100. An
+            index value of 110 means that average market price is 10% higher
+            than it was in the first quarter of 2000 (adjusted for
+            inflation). For more details, you can check out their <a href='http://www.housingstudies.org/media/filer_public/2013/03/11/tr_repeatsalehousepriceindexmarch2013.pdf'>full
+            methodology</a>.
+          </p>
+          <h3 id='unemployment'>Unemployment</h3>
+          <p>For most of us, work is the economy.</p>
+          <p>If we have work, or can get it, the economy seems okay. When we start worrying about our job, or can’t find one, that what a bad economy means to us.</p>
+          <p>Unemployment is a measure of how many people are out of a job and looking for work.  When unemployment is high, people suffer - and so does the economy.</p>
+          <div class='chart' id='chart_Unemployment'></div>
+          <h4>The Data</h4>
+          <p>Technically, the unemployment rate is the number of people who are unemployed, divided by the number of both unemployed and employed people.</p>
+          <p>It’s pretty simple to decide who counts as employed. But just because you don’t have a job doesn’t mean you count as unemployed.</p>
+          <p>
+            That’s because the Bureau of Labor Statistics - the federal agency that measures unemployment - only counts you as
+            <a href='http://www.bls.gov/cps/cps_htgm.htm#unemployed'>officially unemployed</a>
+            if you don’t have a job, have looked for work in the last four weeks, and are ready to start work if you get an offer. People who are not actively looking for work aren’t counted as unemployed.
+          </p>
+          <p>
+            Our monthly unemployment rate data comes from the Bureau of Labor Statistics
+            <a href='http://www.bls.gov/lau/'>Local Area Unemployment Statistics</a>.
+            The way they calculate this rate is
+            <a href='http://www.bls.gov/lau/laumthd.htm'>complicated</a>.
+            We get the
+            <a href='ftp://ftp.bls.gov/pub/time.series/la/la.data.20.Illinois'>data from the Bureau of Labor Statistics’s FTP site</a>
+            (the series ID for Chicago unemployment is LAUPS17010003).
+          </p>
+          <h2 id='from-raw-numbers-to-trends'>From raw numbers to trends</h2>
+          <p>Some parts of the economy rise and fall with the seasons. Construction slows down in the winter, because... its winter in Chicago.</p>
+          <p>These seasonal fluctuations make it difficult to see how businesses, unemployment, and the rest are actually doing.</p>
+          <p>
+            So we try to tease out the real trends from the seasonal ups and downs. We do this with
+            <a href='http://stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html'>R</a>,
+            a statistical programming language, and the
+            <a href='http://stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html'>stl package</a>.
+          </p>
+          <p>If we chose a simpler way of finding the trend, like a moving average, the overall pattern would be the same. But our approach improves the accuracy of our trend line, especially for the most recent months.</p>
+          <h2 id='more-resources'>More Resources</h2>
+          <p>We focus on how Chicago’s economy is changing, but there are other reports out there that compare our economy with those of other cities. These are useful, so let’s link to them.</p>
+          <dl>
+            <dt>
+              <a href='http://www.chapinhall.org/research/report/cwicstats-dashboard-report'>CWICstats Dashboard Report</a>
+            </dt>
+            <dd>This quarterly dashboard report provides a snapshot of key workforce and economic indicators. It was built for the Chicago Workforce Investment Council (CWIC). The front page highlights many of these indicators and their most recent changes. The inside of the report contains graphs of additional indicators.</dd>
+            <dt>
+              <a href='http://www.worldbusinesschicago.com/data'>World Business Chicago</a>
+            </dt>
+            <dd>Repository of business climate, economy, key industries, quality of life and many other economic indexes for the Chicago area.</dd>
+            <dt>
+              <a href='http://research.stlouisfed.org/fred2/'>Federal Reserve Economic Data</a>
+            </dt>
+            <dd>A database of more than 55,000 economic time series maintained by the Federal Reserve Bank of St. Louis.</dd>
+          </dl>
+          <h2 id='team'>Team</h2>
+          <p>
+            This is an
+            <a href='http://opencityapps.org'>Open City</a>
+            project done as a volunteer effort. The team is:
+          </p>
+          <ul>
+            <li>Daniel Morton - statistical analysis</li>
+            <li>
+              <a href='http://derekeder.com'>Derek Eder</a>
+              - front end development
+            </li>
+            <li>Matt Gee - statistical analysis and about page</li>
+            <li>Forest Gregg - statistical analysis and about page</li>
+          </ul>
+          <h2 id='code'>Code and Data</h2>
+          <p>
+            This site was built entirely open source and free to download on
+            <a href='https://github.com/open-city/hows-business'>Github</a>.
+          </p>
+          <p>Technologies used:</p>
+          <ul>
+            <li>
+              <a href='http://www.r-project.org/'>R</a>
+            </li>
+            <li>
+              <a href='http://www.highcharts.com/'>Highcharts</a>
+            </li>
+            <li>
+              <a href='http://www.sinatrarb.com'>Sinatra</a>
+            </li>
+            <li>
+              <a href='http://www.heroku.com'>Heroku</a>
+            </li>
+            <li>
+              <a href='http://twitter.github.com/bootstrap'>Twitter Bootstrap</a>
+            </li>
+          </ul>
+          <p>
+            All the data used for this site come from open sources. The raw counts and trend lines are
+            <a href='http://bunkum.us/hb_data/'>available as JSON</a>.
+          </p>
+          <h2 id='contact-us'>Contact Us</h2>
+          <p>
+            Think we should be tracking other measures of Chicago’s economic climate? Interested in cruching the numbers? Contact us at
+            <a href='mailto:info@opencityapps.org'>info@opencityapps.org</a>
+            or
+            <a href='https://github.com/open-city/hows-business/issues'>file an issue</a>
+            on our tracker.
+          </p>
+          <hr>
+          <h2 id='footnotes'>Footnotes</h2>
+          <ol>
+            <li id='f1'>
+              <a href='http://www.cityofchicago.org/city/en/depts/bacp/supp_info/business_licenseexemptions.html'>
+                Businesses licensed by the state are not required to get a city license
+              </a>
+            </li>
+            <li id='f2'>
+              These secondary, excluded licenses include Auto Gas Pump Certification, Special Event Food, Tobacco Retail Over Counter, Consumption on Premises - Incidental Activity, Hazardous Materials, Package Goods, Raffles, Outdoor Patio, Repossessor Class B Employee, Explosives, Certificate of Fitness, Caterer's Liquor License, Expediter - Class B Employee, Accessory Garage, Expediter - Class B, Retail Food Est.-Supplemental License for Dog-Friendly Areas, Food - Shared Kitchen Long-Term User, Class B - Indoor Special Event, Food - Shared Kitchen Short-Term User, Repossessor Class B, (Other), Caterer's Registration (Liquor), Food - Shared Kitchen - Supplemental
+            </li>
+            <li id='f3'>
+              <a href='http://www.bea.gov/iTable/iTable.cfm?reqid=70&amp;step=10&amp;isuri=1&amp;7093=PercentofMetroPortion&amp;7003=200&amp;7007=-1&amp;7035=-1&amp;7036=-1&amp;7001=2200&amp;7002=2&amp;7090=70&amp;7004=NAICS&amp;7005=11&amp;7006=16980'>
+                BEA: GDP by Metro Area (millions of current $):  Percent of U.S. metro portion:  Construction
+              </a>
+            </li>
+            <li id='f4'>
+              <a href='http://www.cityofchicago.org/city/en/depts/bldgs/supp_info/when_is_a_permitnotneeded.html'>
+                Projects which do <em>not</em> require a permit.
+              </a>
+            </li>
+            <li id='f5'>
+              We also handle one day that is very different from the rest. In the City’s data, there are 1,994 licenses that are reported as issued on July 7, 2007. Typically, the Department of Buildings issues one to two hundred licenses on any day. We throw out the count for this day, and replace it with the average daily permits from the two week period around it.
+            </li>
+            <li id='f6'>
+              <a href='http://www.revenue.state.il.us/businesses/taxinformation/sales/rot.htm'>Illinois Department of Revenue, Sales and Use Taxes</a>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <footer class='footer'>
+      <div class='container-fluid'>
+        <hr>
+        <p>
+          An <a href='http://opencityapps.org'>Open City</a> project by Daniel Morton, Derek Eder, Forest Gregg and Matt Gee.
+        </p>
+      </div>
+    </footer>
+    <!-- / raw and trend data. json data defined as a variable -->
+    <script type="text/javascript" src="http://bunkum.us/hb_data/licenses.js"></script>
+    <script type="text/javascript" src="http://bunkum.us/hb_data/permits.js"></script>
+    <!-- = include_javascript "http://bunkum.us/hb_data/foreclosures.js" -->
+    <script type="text/javascript" src="http://bunkum.us/hb_data/unemployment.js"></script>
+    <script type="text/javascript" src="http://bunkum.us/hb_data/taxable_sales.js"></script>
+    <script type="text/javascript" src="http://bunkum.us/hb_data/hpi.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/highcharts.js"></script>
+    <script type="text/javascript" src="/js/chart_helper.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+    
+    <script type="text/javascript" src="/js/analytics_lib.js"></script>
+  </body>
+</html>

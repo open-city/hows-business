@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>How's Business?</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta content='text/css' http-equiv='Content-Style-Type'>
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content='' name='description'>
+    <meta content='' name='author'>
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.journal.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="/css/custom.css"/>
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class='container-fluid'>
+      <div class='page-header'>
+        <ul class='nav nav-pills pull-right'>
+          <li class='active'>
+            <a href='/'>Home</a>
+          </li>
+          <li>
+            <a href='/about'>About</a>
+          </li>
+        </ul>
+        <h1>
+          <a href='/'>
+            How's Business?
+            <small>
+              A look at the Chicago economy, based on open data
+            </small>
+          </a>
+        </h1>
+      </div>
+      <div class='row-fluid'>
+        <div class='span6 well'>
+          <h3>
+            <a href='/about#taxable-sales'>
+              Consumer Spending
+              <small>
+                More info
+              </small>
+            </a>
+          </h3>
+          <p>
+            Source:
+            <a href='https://www.revenue.state.il.us/app/kob/index.jsp'>Illinois Dept of Revenue</a>
+            |
+            Trend:
+            <span class='label label-success'>
+              Steady increase
+            </span>
+          </p>
+          <div class='chart' id='chart_Taxable-Sales'></div>
+        </div>
+        <div class='span6 well'>
+          <h3>
+            <a href='/about#unemployment'>
+              Unemployment
+              <small>
+                More info
+              </small>
+            </a>
+          </h3>
+          <p>
+            Source:
+            <a href='http://www.bls.gov/lau/'>Bureau of Labor Statistics</a>
+            |
+            Trend:
+            <span class='label label-success'>
+              Turning around
+            </span>
+          </p>
+          <div class='chart' id='chart_Unemployment'></div>
+        </div>
+      </div>
+      <div class='row-fluid'>
+        <div class='span6 well'>
+          <h3>
+            <a href='/about#building-permits'>
+              New Construction
+              <small>
+                More info
+              </small>
+            </a>
+          </h3>
+          <p>
+            Source:
+            <a href='https://data.cityofchicago.org/Buildings/Building-Permits/ydr8-5enu'>City of Chicago</a>
+            |
+            Trend:
+            <span class='label label-success'>
+              Upswing
+            </span>
+          </p>
+          <div class='chart' id='chart_Building-Permits'></div>
+        </div>
+        <div class='span6 well'>
+          <h3>
+            <a href='/about#housing-price-index'>
+              Housing Price Index
+              <small>
+                More info
+              </small>
+            </a>
+          </h3>
+          <p>
+            Source:
+            <a href='http://www.housingstudies.org/data/ihs-price-index/'>Depaul Institute of Housing Studies</a>
+            |
+            Trend:
+            <span class='label label-success'>
+              Upswing
+            </span>
+          </p>
+          <div class='chart' id='chart_HPI'></div>
+        </div>
+      </div>
+      <div class='row-fluid'>
+        <div class='span6 well'>
+          <h3>
+            <a href='/about#new-businesses'>
+              New Business Licenses
+              <small>
+                More info
+              </small>
+            </a>
+          </h3>
+          <p>
+            Source:
+            <a href='https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr'>City of Chicago</a>
+            |
+            Trend:
+            <span class='label label-important'>
+              Been better
+            </span>
+          </p>
+          <div class='chart' id='chart_Business-Licenses'></div>
+        </div>
+      </div>
+      <div class='row-fluid'>
+        <div class='span12'>
+          <h3>
+            About this project
+          </h3>
+          <p>
+            <p>
+              How’s Business provides a view of Chicago’s local economy. It uses open data to show how several economic indicators have been trending since 2005.
+              <a href='/about'>More &raquo;</a>
+            </p>
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer class='footer'>
+      <div class='container-fluid'>
+        <hr>
+        <p>
+          An <a href='http://opencityapps.org'>Open City</a> project by Daniel Morton, Derek Eder, Forest Gregg and Matt Gee.
+        </p>
+      </div>
+    </footer>
+    <!-- / raw and trend data. json data defined as a variable -->
+    <script type="text/javascript" src="http://bunkum.us/hb_data/licenses.js"></script>
+    <script type="text/javascript" src="http://bunkum.us/hb_data/permits.js"></script>
+    <!-- = include_javascript "http://bunkum.us/hb_data/foreclosures.js" -->
+    <script type="text/javascript" src="http://bunkum.us/hb_data/unemployment.js"></script>
+    <script type="text/javascript" src="http://bunkum.us/hb_data/taxable_sales.js"></script>
+    <script type="text/javascript" src="http://bunkum.us/hb_data/hpi.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/highcharts.js"></script>
+    <script type="text/javascript" src="/js/chart_helper.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+    
+    <script type="text/javascript" src="/js/analytics_lib.js"></script>
+  </body>
+</html>

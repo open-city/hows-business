@@ -2,23 +2,19 @@
 
 A look at the Chicago economy, based on open data.
 
-## Installation
+## Running locally
 
 ```console
-git clone git@github.com:open-city/hows-business.git
+git clone https://github.com/open-city/hows-business.git
 cd hows-business
-gem install bundler
-bundle
-unicorn
+open index.html
 ```
-  navigate to http://localhost:8080/
 
 ## Dependencies
 
-* [Ruby 1.9.3](http://www.ruby-lang.org/en/downloads)
-* [Sinatra](http://www.sinatrarb.com)
-* [Heroku](http://www.heroku.com)
-* [Twitter Bootstrap](http://twitter.github.com/bootstrap)
+* [Bootstrap](http://getbootstrap.com) - HTML and CSS layouts
+* [Highcharts](http://www.highcharts.com/) - Javascript charting library
+* [R](http://www.r-project.org/) - statistical analysis language (used for processing the seasonally adjusted trends)
 
 ## Raw data
 
@@ -40,4 +36,4 @@ If something is not behaving intuitively, it is a bug, and should be reported.
 
 ## Copyright
 
-Copyright (c) 2013 Daniel Morton, Derek Eder, Forest Gregg and Matt Gee. Released under the [MIT License](https://github.com/open-city/hows-business/wiki/License).
+Copyright (c) 2014 Daniel Morton, Derek Eder, Forest Gregg and Matt Gee. Released under the [MIT License](https://github.com/open-city/hows-business/blob/master/LICENSE).
