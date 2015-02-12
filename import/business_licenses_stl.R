@@ -11,23 +11,21 @@ licenses <- licenses[!is.na(licenses$date),]
 # Select only whole months
 begin_curr_month <- as.Date(as.yearmon(Sys.Date()))
 
-licenses <- licenses[licenses$date >= "2006-1-01"
-                 & licenses$date < begin_curr_month,]
+licenses <- licenses[licenses$date >= "2005-1-01"
+                     & licenses$date < begin_curr_month,]
 
 licenses_xts <- xts::xts(licenses$count, licenses$date)
 month_licenses <- apply.monthly(licenses_xts,sum)
 
-month_count_ts <- ts(as.numeric(month_licenses), c(2006, 1), frequency=12)
+month_count_ts <- ts(as.numeric(month_licenses), c(2005, 1), frequency=12)
 
 trend <- lowess(log(month_count_ts), f=.3)
 
 trend_output <- round(exp(trend$y),2)
 
 month_data = paste(month_count_ts, collapse=',')
-month_data = paste(paste(rep('null', 12), collapse=","), ',', month_data, sep='')
 
 trend_data = paste(trend_output, collapse=',')
-trend_data = paste(paste(rep('null', 12), collapse=","), ',', trend_data, sep='')
 
 license <- paste(
  'var licenses = {"grouping" : "Business Licenses",
