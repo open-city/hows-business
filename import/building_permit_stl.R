@@ -2,22 +2,23 @@ library(xts)
 library(RCurl)
 
 #Permit Trend and Linear approximation
-permit.url <- "https://data.cityofchicago.org/resource/ydr8-5enu.csv?$select=_issue_date,count(_issue_date)&$group=_issue_date&$where=_permit_type='PERMIT - NEW CONSTRUCTION' OR _permit_type='PERMIT - RENOVATION/ALTERATION'&$limit=100000"
+permit.url <- "https://data.cityofchicago.org/resource/ydr8-5enu.csv?$select=issue_date,count(issue_date)&$group=issue_date&$where=permit_type='PERMIT - NEW CONSTRUCTION' OR permit_type='PERMIT - RENOVATION/ALTERATION'&$limit=100000"
 permit.csv <- RCurl::getURLContent(URLencode(permit.url))
 permit <- read.csv(textConnection(permit.csv))
 
 names(permit) <- c("date", "count")
 
-permit$date <- as.Date(permit$date,"%m/%d/%Y")
+permit$date <- as.Date(permit$date)
+
 permit <- permit[!is.na(permit$date),]
 permit <- permit[order(permit$date),]
 
 #Remove outlier by averaging the other entries within one week.
 
-permit$count[575] <- sum(permit[permit$date <= "2007-07-14"
-                                & permit$date >= "2007-06-30"
-                                & permit$date != "2007-07-07",
-                                "count"])/10
+#permit$count[575] <- sum(permit[permit$date <= "2007-07-14"
+#                                & permit$date >= "2007-06-30"
+#                                & permit$date != "2007-07-07",
+#                                "count"])/10
 
 
 # Select only whole months
