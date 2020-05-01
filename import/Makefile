@@ -7,7 +7,7 @@ install/R: ## Install R dependencies (usually only required once)
 
 
 permits.js :
-	Rscript building_permits_stl.R
+	Rscript building_permit_stl.R
 
 
 business_permits.csv :
@@ -16,7 +16,7 @@ business_permits.csv :
 daily_count.csv : business_permits.csv
 	python business_licenses.py
 
-licenses.js : daily_counts.csv
+licenses.js : daily_count.csv
 	Rscript business_licenses_stl.R
 
 unemployment.js :
